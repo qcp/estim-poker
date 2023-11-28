@@ -1,6 +1,7 @@
 # Estim Pocker
 
-tbd final link
+Try it:
+https://qcp.github.io/estim-poker/
 
 ## Description
 
@@ -45,4 +46,4 @@ npm run dev
 - [ ] Add `lint`, `format` and `type-check` prehook
 - [ ] Custom vote system generator
 - [ ] Discord embded app
-- [ ] Optional SSO auth
+- [ ] ~~Optional SSO auth~~

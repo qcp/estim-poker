@@ -8,6 +8,7 @@ import { PrimeVueResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/estim-poker/',
   plugins: [
     vue({
       script: { defineModel: true }

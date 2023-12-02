@@ -7,28 +7,34 @@ const voteSystemName = defineModel<IVoteSystems>('voteSystemName')
 const gameNameDraft = ref<string>(getRandomGameName())
 const voteSystemNameDraft = ref<IVoteSystems>('fibonachi')
 
+const [visible, toggle] = useToggle()
+
 watch(
   gameName,
   () => {
-    if (gameName.value) gameNameDraft.value = gameName.value
+    if (gameName.value) {
+      gameNameDraft.value = gameName.value
+    }
   },
-  { immediate: true }
+  { immediate: true },
 )
 watch(
   gameName,
   () => {
-    if (voteSystemName.value) voteSystemNameDraft.value = voteSystemName.value
+    if (voteSystemName.value) {
+      voteSystemNameDraft.value = voteSystemName.value
+    }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 const saveReady = computed(
   () =>
     // Required field exist
-    gameNameDraft.value &&
-    voteSystemNameDraft.value &&
+    gameNameDraft.value
+    && voteSystemNameDraft.value
     // Has any changes in fields
-    !(gameName.value == gameNameDraft.value && voteSystemName.value == voteSystemNameDraft.value)
+    && !(gameName.value === gameNameDraft.value && voteSystemName.value === voteSystemNameDraft.value),
 )
 function save() {
   gameName.value = gameNameDraft.value
@@ -37,7 +43,6 @@ function save() {
   visible.value = false
 }
 
-const [visible, toggle] = useToggle()
 defineExpose({ toggle })
 </script>
 
@@ -48,7 +53,7 @@ defineExpose({ toggle })
     header="Game settings"
     :pt="{
       header: { style: 'padding: var(--inline-spacing)' },
-      content: { style: 'padding: unset' }
+      content: { style: 'padding: unset' },
     }"
   >
     <game-settings

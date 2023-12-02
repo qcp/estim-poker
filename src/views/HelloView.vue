@@ -23,22 +23,26 @@ async function createNewGame() {
         content: {
           style: {
             display: 'grid',
-            [isPortrait ? 'grid-template-rows' : 'grid-template-columns']: '1fr auto 1fr'
-          }
-        }
+            [isPortrait ? 'grid-template-rows' : 'grid-template-columns']: '1fr auto 1fr',
+          },
+        },
       }"
     >
       <template #content>
         <div class="panel">
           <pocker-icon class="icon-pocker" />
-          <p-button @click="createNewGame"> Create new game </p-button>
+          <p-button @click="createNewGame">
+            Create new game
+          </p-button>
         </div>
         <p-divider :layout="isPortrait ? 'horizontal' : 'vertical'" class="hidden md:flex">
           <b>OR</b>
         </p-divider>
         <template v-if="history.length > 0">
           <div class="panel">
-            <h4 style="margin: 0">Join the old one</h4>
+            <h4 style="margin: 0">
+              Join the old one
+            </h4>
             <div class="game-list">
               <div v-for="{ id, name } in history" :key="id" class="game-item">
                 <i class="arrow pi pi-angle-double-right" />
@@ -50,7 +54,7 @@ async function createNewGame() {
         </template>
         <template v-else>
           <div class="panel">
-            Your game history <br />
+            Your game history <br>
             will be here...
           </div>
         </template>

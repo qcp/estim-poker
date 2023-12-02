@@ -1,7 +1,7 @@
 import { useToast } from 'primevue/usetoast'
 import { ValiError } from 'valibot'
 
-export const useErrorHandler = () => {
+export function useErrorHandler() {
   const toast = useToast()
 
   function handleError(error: unknown) {
@@ -11,30 +11,33 @@ export const useErrorHandler = () => {
       toast.add({
         summary: 'Api error',
         detail: error.message,
-        severity: 'error'
+        severity: 'error',
       })
-    } else if (error instanceof ValiError) {
+    }
+    else if (error instanceof ValiError) {
       toast.add({
         summary: 'Validation error',
         detail: error.message,
-        severity: 'error'
+        severity: 'error',
       })
-    } else if (error instanceof Error) {
+    }
+    else if (error instanceof Error) {
       toast.add({
         summary: 'Unknown error',
         detail: error.message,
-        severity: 'error'
+        severity: 'error',
       })
-    } else {
+    }
+    else {
       toast.add({
         summary: 'Unknown error',
         detail: error,
-        severity: 'error'
+        severity: 'error',
       })
     }
   }
 
   return {
-    handleError
+    handleError,
   }
 }

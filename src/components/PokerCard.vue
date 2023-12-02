@@ -12,13 +12,13 @@ const props = defineProps<{
     class="card"
     :class="{
       'with-hover': props.withHover,
-      selected: props.selected
+      'selected': props.selected,
     }"
   >
-    <i style="font-size: inherit" v-if="!props.vote" class="pi pi-question" />
+    <i v-if="!props.vote" style="font-size: inherit" class="pi pi-question" />
     <i
-      style="font-size: inherit; color: var(--green-400)"
       v-else-if="props.hided"
+      style="font-size: inherit; color: var(--green-400)"
       class="pi pi-check"
     />
     <span v-else> {{ props.vote }}</span>

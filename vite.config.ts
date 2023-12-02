@@ -1,4 +1,4 @@
-import { fileURLToPath, URL } from 'node:url'
+import { URL, fileURLToPath } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -11,11 +11,11 @@ export default defineConfig({
   base: '/estim-poker/',
   plugins: [
     vue({
-      script: { defineModel: true }
+      script: { defineModel: true },
     }),
     AutoImport({
       imports: ['vue', 'vue-router', '@vueuse/core'],
-      dirs: ['./src/constants', './src/utils']
+      dirs: ['./src/constants', './src/utils'],
     }),
     Components({
       dirs: ['./src/components', './src/icons'],
@@ -24,14 +24,14 @@ export default defineConfig({
           importIcons: true,
           importStyle: true,
           // importTheme: 'lara-light-blue',
-          prefix: 'P'
-        })
-      ]
-    })
+          prefix: 'P',
+        }),
+      ],
+    }),
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
 })

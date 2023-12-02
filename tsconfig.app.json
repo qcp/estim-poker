@@ -1,5 +1,12 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
   "include": [
     "env.d.ts",
     "src/**/*",
@@ -8,12 +15,5 @@
     "auto-imports.d.ts",
     "components.d.ts"
   ],
-  "exclude": ["src/**/__tests__/*"],
-  "compilerOptions": {
-    "composite": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  }
+  "exclude": ["src/**/__tests__/*"]
 }

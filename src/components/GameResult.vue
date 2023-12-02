@@ -14,17 +14,17 @@ const props = defineProps<{
       class="result-list"
       :style="{
         gridAutoRows: `repeat(${5}, 1fr)`,
-        gridTemplateColumns: `repeat(${Math.ceil(props.result.length / 5)}, 1fr)`
+        gridTemplateColumns: `repeat(${Math.ceil(props.result.length / 5)}, 1fr)`,
       }"
     >
       <li v-for="({ name, vote }, idx) of props.result" :key="idx" class="result-item">
         <span>{{ name }} </span>
         <transition :name="vote && 'flip'" mode="out-in">
           <poker-card
-            :style="{
-              '--transition-delay': `${Math.random() / 2}s`
-            }"
             :key="`${idx}-${props.show}`"
+            :style="{
+              '--transition-delay': `${Math.random() / 2}s`,
+            }"
             class="card"
             :vote="vote"
             :hided="!props.show"

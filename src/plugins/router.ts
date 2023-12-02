@@ -6,12 +6,12 @@ export const router = createRouter({
     {
       path: '/',
       name: 'hello',
-      component: () => import('@/views/HelloView.vue')
+      component: () => import('@/views/HelloView.vue'),
     },
     {
       path: '/game/:id',
       name: 'game',
-      component: () => import('@/views/GameView.vue')
-    }
-  ]
+      component: () => import('@/views/GameView.vue'),
+    },
+  ],
 })

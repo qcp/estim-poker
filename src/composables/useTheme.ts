@@ -1,15 +1,15 @@
 import { usePrimeVue } from 'primevue/config'
 
-export const useTheme = () => {
+export function useTheme() {
   const Themes = {
     light: 'lara-light-blue',
-    dark: 'lara-dark-blue'
+    dark: 'lara-dark-blue',
   } as const
 
   const { changeTheme } = usePrimeVue()
   const [theme, toggleTheme] = useToggle<typeof Themes.light, typeof Themes.dark>(Themes.light, {
     truthyValue: Themes.light,
-    falsyValue: Themes.dark
+    falsyValue: Themes.dark,
   })
 
   watch(theme, (newTheme, oldTheme) => changeTheme(oldTheme, newTheme, 'theme-link'))
@@ -19,13 +19,14 @@ export const useTheme = () => {
   watch(
     preferredColor,
     () => {
-      if (preferredColor.value == 'light' && theme.value != Themes.light) {
+      if (preferredColor.value === 'light' && theme.value !== Themes.light) {
         theme.value = Themes.light
-      } else if (preferredColor.value == 'dark' && theme.value != Themes.dark) {
+      }
+      else if (preferredColor.value === 'dark' && theme.value !== Themes.dark) {
         theme.value = Themes.dark
       }
     },
-    { immediate: true }
+    { immediate: true },
   )
 
   const themeIcon = computed(() => {
@@ -40,6 +41,6 @@ export const useTheme = () => {
   return {
     theme,
     themeIcon,
-    toggleTheme
+    toggleTheme,
   }
 }

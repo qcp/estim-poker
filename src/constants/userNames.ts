@@ -18,7 +18,7 @@ export const DefaultUserName = [
   'Carl',
   'Remy',
   'Mushroom boy',
-  'ВАЛЛ-И'
+  'ВАЛЛ-И',
 ]
 
 export function getRandomUserName() {

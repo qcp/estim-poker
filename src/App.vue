@@ -7,9 +7,9 @@ import { useErrorHandler } from './composables/useErrorHandler'
 const { themeIcon, toggleTheme } = useTheme()
 const { handleError } = useErrorHandler()
 
-onErrorCaptured((error) => handleError(error))
-window.addEventListener('error', (e) => handleError(e.error), true)
-window.addEventListener('unhandledrejection', (e) => handleError(e.reason), true)
+onErrorCaptured(error => handleError(error))
+window.addEventListener('error', e => handleError(e.error), true)
+window.addEventListener('unhandledrejection', e => handleError(e.reason), true)
 </script>
 
 <template>

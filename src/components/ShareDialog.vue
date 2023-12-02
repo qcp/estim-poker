@@ -17,14 +17,15 @@ async function copyUrl() {
       toast.add({
         detail: 'Link copied to clipboard',
         life: 5000,
-        severity: 'success'
+        severity: 'success',
       })
     }
-  } catch (ex) {
+  }
+  catch (ex) {
     toast.add({
       detail: 'Failed to copy',
       life: 5000,
-      severity: 'error'
+      severity: 'error',
     })
   }
 }
@@ -38,7 +39,7 @@ async function toggle() {
 }
 
 defineExpose({
-  toggle
+  toggle,
 })
 </script>
 
@@ -51,7 +52,7 @@ defineExpose({
     :pt="{
       root: { style: { 'max-width': '30ch' } },
       header: { style: 'padding: var(--inline-spacing)' },
-      content: { style: 'padding: unset' }
+      content: { style: 'padding: unset' },
     }"
   >
     <div class="share-dialog">
@@ -65,7 +66,7 @@ defineExpose({
         />
       </div>
 
-      <img :src="qrcode" alt="QR Code" class="qrcode" />
+      <img :src="qrcode" alt="QR Code" class="qrcode">
     </div>
   </p-dialog>
 </template>

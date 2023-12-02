@@ -1,6 +1,6 @@
 <script setup lang="ts">
 function icon(name: string, theme?: 'light' | 'dark') {
-  return `https://api.iconify.design/skill-icons:${name}${theme ? '-' + theme : ''}.svg`
+  return `https://api.iconify.design/skill-icons:${name}${theme ? `-${theme}` : ''}.svg`
 }
 
 const logoCounter = ref(0)
@@ -12,24 +12,28 @@ const logos = [
   h('img', { src: icon('vuejs', 'dark') }),
   h('img', { src: icon('supabase', 'dark') }),
   h('img', { src: icon('postgresql', 'dark') }),
-  h('img', { src: icon('github', 'dark') })
+  h('img', { src: icon('github', 'dark') }),
 ]
 
 useIntervalFn(
   () => (logoCounter.value = Math.round((logoCounter.value + 1) % logos.length)),
-  5 * 1000
+  5 * 1000,
 )
 </script>
 
 <template>
   <div class="block">
-    <div class="with">made with</div>
+    <div class="with">
+      made with
+    </div>
     <div class="logo">
       <transition name="slide-up" mode="out-in">
-        <component :key="logoCounter" :is="logos[logoCounter]" />
+        <component :is="logos[logoCounter]" :key="logoCounter" />
       </transition>
     </div>
-    <div class="with">by qcp</div>
+    <div class="with">
+      by qcp
+    </div>
   </div>
 </template>
 

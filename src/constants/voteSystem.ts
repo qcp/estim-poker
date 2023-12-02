@@ -22,5 +22,5 @@ export type IVoteSystems = (typeof VoteSystems)[number]
 
 export const VoteSystemConfig = {
   fibonachi: FibonachiSystem,
-  shark: SharkSystem
+  shark: SharkSystem,
 } satisfies Record<IVoteSystems, IVoteConfig>

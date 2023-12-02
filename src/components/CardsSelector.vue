@@ -16,10 +16,10 @@ const vote = defineModel<string>('vote')
       v-for="{ name, tooltip } of voteSystem.options"
       :key="name"
       :vote="name"
-      :selected="vote == name"
+      :selected="vote === name"
       with-hover
-      @click="vote = vote == name ? undefined : name"
       :tooltip="tooltip"
+      @click="vote = vote === name ? undefined : name"
     />
   </div>
 </template>

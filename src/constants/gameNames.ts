@@ -18,7 +18,7 @@ export const DefaultGameName = [
   'Jakarta',
   'Dhaka',
   'Rio de Janeiro',
-  'Santiago'
+  'Santiago',
 ]
 
 export function getRandomGameName() {

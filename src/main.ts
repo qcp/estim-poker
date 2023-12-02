@@ -1,10 +1,10 @@
 import { createApp } from 'vue'
-import { router } from './plugins/router'
-import App from './App.vue'
 import PrimeVue from 'primevue/config'
 
 import ToastService from 'primevue/toastservice'
 import Tooltip from 'primevue/tooltip'
+import App from './App.vue'
+import { router } from './plugins/router'
 
 const app = createApp(App)
 

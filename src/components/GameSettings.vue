@@ -5,10 +5,10 @@ const gameName = defineModel<string>('gameName', { required: true })
 const voteSystemName = defineModel<IVoteSystems>('voteSystemName', { required: true })
 
 const voteSystemOptions = computed(() =>
-  VoteSystems.map((name) => ({
+  VoteSystems.map(name => ({
     name,
-    description: VoteSystemConfig[name].description
-  }))
+    description: VoteSystemConfig[name].description,
+  })),
 )
 </script>
 

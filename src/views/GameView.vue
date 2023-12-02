@@ -2,16 +2,14 @@
 import type { GlobalComponents } from 'vue'
 import type { ComponentExposed } from 'vue-component-type-helpers'
 
-import { useUser, useGame } from '@/composables/useGame'
+import { useGame, useUser } from '@/composables/useGame'
 
 const shareDialogEl = ref<ComponentExposed<GlobalComponents['ShareDialog']>>()
 const settingsDialogEl = ref<ComponentExposed<GlobalComponents['SettingsDialog']>>()
 
 const userSettingsEl = ref<InstanceType<GlobalComponents['OverlayPanel']>>()
 
-const {
-  params: { id: routerIds }
-} = useRoute()
+const { params: { id: routerIds } } = useRoute()
 const gameId = Array.isArray(routerIds) ? routerIds.at(0)! : routerIds!
 
 const user = useUser()
@@ -21,7 +19,7 @@ const { gameName, showResult, voteSystemName, state, reset } = useGame(gameId, u
 <template>
   <section class="wrapper">
     <template v-if="!(gameName && voteSystemName)">
-      <i class="pi pi-spin pi-spinner" style="font-size: 3em"></i>
+      <i class="pi pi-spin pi-spinner" style="font-size: 3em" />
     </template>
     <template v-else>
       <div class="p-card header">

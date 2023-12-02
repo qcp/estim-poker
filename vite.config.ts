@@ -14,7 +14,12 @@ export default defineConfig({
       script: { defineModel: true },
     }),
     AutoImport({
-      imports: ['vue', 'vue-router', '@vueuse/core'],
+      imports: [
+        'vue',
+        'vue-router',
+        '@vueuse/core',
+        { luxon: ['DateTime'] },
+      ],
       dirs: ['./src/constants', './src/utils'],
     }),
     Components({

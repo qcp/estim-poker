@@ -6,6 +6,7 @@
 export {}
 declare global {
   const ApiError: typeof import('./src/utils/errors')['ApiError']
+  const DateTime: typeof import('luxon')['DateTime']
   const DefaultGameName: typeof import('./src/constants/gameNames')['DefaultGameName']
   const DefaultUserName: typeof import('./src/constants/userNames')['DefaultUserName']
   const EffectScope: typeof import('vue')['EffectScope']

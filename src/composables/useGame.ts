@@ -16,7 +16,12 @@ function throwIfError(error: PostgrestError | null) {
 
 function gameModel(raw: any) {
   try {
-    return parse(object({ id: string(), name: string(), vote_system: string() }), raw)
+    return parse(object({
+      id: string(),
+      name: string(),
+      vote_system: string(),
+      last_used_at: string(),
+    }), raw)
   }
   catch (error) {
     console.warn(error)
@@ -27,7 +32,10 @@ type IGame = ReturnType<typeof gameModel>
 
 function userModel(raw: any) {
   try {
-    return parse(object({ name: string(), vote: optional(string()) }), raw)
+    return parse(object({
+      name: string(),
+      vote: optional(string()),
+    }), raw)
   }
   catch (error) {
     console.warn(error)
@@ -111,6 +119,14 @@ export function useGame(id: string, user: Ref<IUser>) {
   function onGameUpdate(raw: any) {
     game.value = gameModel(raw)
     addHistory(game.value)
+
+    // Refresh last used day if need
+    const today = DateTime.fromISO(DateTime.now().toISODate())
+    const lasGameDate = DateTime.fromISO(game.value.last_used_at)
+    if (lasGameDate.isValid && today.isValid
+      && lasGameDate.toMillis() < today.toMillis()) {
+      updateGame({ last_used_at: today.toISODate() })
+    }
   }
   function onStateSync(raw: any) {
     state.value = Object.values(raw).flat().map(userModel)

@@ -19,7 +19,7 @@ Feel free to make PR here or contact me.
 
 ## Stack
 
-- `Vue 3` + `Vite 5` + `TupeScript 5`
+- `Vue 3` + `Vite 5` + `TypeScript 5`
 - `Supabase` free-tier
 - `PrimeVue` for ui
 - `Github pages`
@@ -45,5 +45,3 @@ npm run dev
 
 - [ ] Add `lint`, `format` and `type-check` prehook
 - [ ] Custom vote system generator
-- [ ] Discord embded app
-- [ ] ~~Optional SSO auth~~

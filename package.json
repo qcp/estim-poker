@@ -1,8 +1,8 @@
 {
   "name": "estim-poker",
   "type": "module",
-  "version": "0.0.0",
-  "private": true,
+  "author": { "name": "qcp" },
+  "repository": { "url": "https://github.com/qcp/estim-poker" },
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",

@@ -32,18 +32,18 @@ const usersByVote = computed(() => {
 </script>
 
 <template>
-  <div class="result-wrapper">
-    <transition name="slide" mode="out-in">
-      <div v-if="!props.show" class="result-waiting">
-        <i v-if="usersNoVote.length > 0" class="pi pi-spin pi-spinner" style="font-size: 3em;" />
-        <i v-else class="pi pi-check" style="font-size: 3em;" />
+  <transition name="slide" mode="out-in">
+    <div v-if="!props.show" class="result-waiting">
+      <i v-if="usersNoVote.length > 0" class="pi pi-spin pi-spinner" style="font-size: 3em;" />
+      <i v-else class="pi pi-check" style="font-size: 3em;" />
 
-        <span v-if="usersNoVote.length > 2"> Waiting {{ usersNoVote.length }} users... </span>
-        <span v-else-if="usersNoVote.length > 0"> Waiting {{ usersNoVote.join(' and ') }}... </span>
-        <span v-else> Ready to reveal </span>
-      </div>
-      <ul v-else class="result-list">
-        <li v-for="([vote, names], idx) of usersByVote" :key="idx" class="result-item">
+      <span v-if="usersNoVote.length > 2"> Waiting {{ usersNoVote.length }} users... </span>
+      <span v-else-if="usersNoVote.length > 0"> Waiting {{ usersNoVote.join(' and ') }}... </span>
+      <span v-else> Ready to reveal </span>
+    </div>
+    <div v-else class="result-wrapper">
+      <div class="result-list">
+        <div v-for="([vote, names], idx) of usersByVote" :key="idx" class="result-item">
           <transition :name="vote && 'flip'" mode="out-in">
             <poker-card
               :key="`${idx}-${props.show}`"
@@ -53,31 +53,29 @@ const usersByVote = computed(() => {
           </transition>
           <span v-if="names.length > 1"> x<b>{{ names.length }}</b> </span>
           <span style="color: var(--text-color-secondary)">{{ names.join(', ') }} </span>
-        </li>
-      </ul>
-    </transition>
-  </div>
+        </div>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <style scoped>
-.result-wrapper {
-  height: 100%;
-  width: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .result-waiting {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--content-padding)
 }
-.result-list {
-  padding: unset;
+.result-wrapper {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  padding: 0 calc(var(--content-padding) * 3);
 
-  list-style: none;
+  display: flex;
+  align-items: center;
+}
+.result-list {
   display: flex;
   flex-direction: column;
   gap: var(--inline-spacing)

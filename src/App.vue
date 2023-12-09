@@ -18,14 +18,11 @@ window.addEventListener('unhandledrejection', e => handleError(e.reason), true)
 
 <template>
   <p-toast />
-  <section class="main">
-    <router-view />
-    <stack-footer />
-  </section>
   <div class="tool-bar">
     <p-button icon="pi pi-github" text rounded @click="() => openGithub()" />
     <p-button :icon="themeIcon" text rounded @click="() => toggleTheme()" />
   </div>
+  <router-view />
 </template>
 
 <style>
@@ -38,6 +35,7 @@ body {
   background-color: var(--surface-ground);
 }
 #app {
+  overflow: hidden;
   height: 100%;
 }
 .p-button:enabled:focus {
@@ -46,14 +44,6 @@ body {
 </style>
 
 <style scoped>
-.main {
-  padding: 1em;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
 .tool-bar {
   position: absolute;
   right: var(--inline-spacing);

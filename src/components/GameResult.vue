@@ -7,45 +7,36 @@ const props = defineProps<{
   show: boolean
 }>()
 
-const MaxRowsInColumn = 3
+const MaxRowsInColumn = 5
 </script>
 
 <template>
-  <div class="result-wrapper">
-    <ul
-      class="result-list"
-      :style="{
-        gridAutoRows: `repeat(${MaxRowsInColumn}, 1fr)`,
-        gridTemplateColumns: `repeat(${Math.ceil(props.result.length / MaxRowsInColumn)}, 1fr)`,
-      }"
-    >
-      <li v-for="({ name, vote }, idx) of props.result" :key="idx" class="result-item">
-        <span>{{ name }} </span>
-        <transition :name="vote && 'flip'" mode="out-in">
-          <poker-card
-            :key="`${idx}-${props.show}`"
-            :style="{
-              '--transition-delay': `${Math.random() / 2}s`,
-            }"
-            class="card"
-            :vote="vote"
-            :hided="!props.show"
-          />
-        </transition>
-      </li>
-    </ul>
+  <div
+    class="result-list"
+    :style="{
+      gridAutoRows: `repeat(${MaxRowsInColumn}, 1fr)`,
+      gridTemplateColumns: `repeat(${Math.ceil(props.result.length / MaxRowsInColumn)}, 1fr)`,
+    }"
+  >
+    <div v-for="({ name, vote }, idx) of props.result" :key="idx" class="result-item">
+      <span>{{ name }} </span>
+      <transition :name="vote && 'flip'" mode="out-in">
+        <poker-card
+          :key="`${idx}-${props.show}`"
+          :style="{
+            '--transition-delay': `${Math.random() / 2}s`,
+          }"
+          class="card"
+          :vote="vote"
+          :hided="!props.show"
+        />
+      </transition>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.result-wrapper {
-  overflow: hidden;
-  overflow: auto;
-}
 .result-list {
-  padding: unset;
-
-  list-style: none;
   display: grid;
   column-gap: 2em;
   row-gap: 0.5em;

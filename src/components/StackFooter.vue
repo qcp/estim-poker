@@ -43,6 +43,7 @@ useIntervalFn(
   align-items: center;
   justify-content: center;
   gap: var(--inline-spacing);
+  margin: 1em 0;
 }
 .with {
   color: var(--text-color-secondary);

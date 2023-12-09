@@ -17,53 +17,64 @@ async function createNewGame() {
 </script>
 
 <template>
-  <section class="wrapper">
-    <p-card
-      :pt="{
-        content: {
-          style: {
-            display: 'grid',
-            [isPortrait ? 'grid-template-rows' : 'grid-template-columns']: '1fr auto 1fr',
+  <section class="main">
+    <section class="wrapper">
+      <p-card
+        :pt="{
+          content: {
+            style: {
+              display: 'grid',
+              [isPortrait ? 'grid-template-rows' : 'grid-template-columns']: '1fr auto 1fr',
+            },
           },
-        },
-      }"
-    >
-      <template #content>
-        <div class="panel">
-          <pocker-icon class="icon-pocker" />
-          <p-button @click="createNewGame">
-            Create new game
-          </p-button>
-        </div>
-        <p-divider :layout="isPortrait ? 'horizontal' : 'vertical'" class="hidden md:flex">
-          <b>OR</b>
-        </p-divider>
-        <template v-if="history.length > 0">
+        }"
+      >
+        <template #content>
           <div class="panel">
-            <h4 style="margin: 0">
-              Join the old one
-            </h4>
-            <div class="game-list">
-              <div v-for="{ id, name } in history" :key="id" class="game-item">
-                <i class="arrow pi pi-angle-double-right" />
-                <span class="text" @click="goToGame(id)">{{ name }}</span>
-                <i class="dell pi pi-trash" style="color: var(--red-500)" @click="remove(id)" />
+            <pocker-icon class="icon-pocker" />
+            <p-button @click="createNewGame">
+              Create new game
+            </p-button>
+          </div>
+          <p-divider :layout="isPortrait ? 'horizontal' : 'vertical'" class="hidden md:flex">
+            <b>OR</b>
+          </p-divider>
+          <template v-if="history.length > 0">
+            <div class="panel">
+              <h4 style="margin: 0">
+                Join the old one
+              </h4>
+              <div class="game-list">
+                <div v-for="{ id, name } in history" :key="id" class="game-item">
+                  <i class="arrow pi pi-angle-double-right" />
+                  <span class="text" @click="goToGame(id)">{{ name }}</span>
+                  <i class="dell pi pi-trash" style="color: var(--red-500)" @click="remove(id)" />
+                </div>
               </div>
             </div>
-          </div>
+          </template>
+          <template v-else>
+            <div class="panel">
+              Your game history <br>
+              will be here...
+            </div>
+          </template>
         </template>
-        <template v-else>
-          <div class="panel">
-            Your game history <br>
-            will be here...
-          </div>
-        </template>
-      </template>
-    </p-card>
+      </p-card>
+    </section>
+
+    <stack-footer />
   </section>
 </template>
 
 <style scoped>
+.main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .wrapper {
   height: 100%;
   display: flex;

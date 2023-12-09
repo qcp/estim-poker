@@ -6,6 +6,8 @@ const props = defineProps<{
   }>
   show: boolean
 }>()
+
+const MaxRowsInColumn = 3
 </script>
 
 <template>
@@ -13,8 +15,8 @@ const props = defineProps<{
     <ul
       class="result-list"
       :style="{
-        gridAutoRows: `repeat(${5}, 1fr)`,
-        gridTemplateColumns: `repeat(${Math.ceil(props.result.length / 5)}, 1fr)`,
+        gridAutoRows: `repeat(${MaxRowsInColumn}, 1fr)`,
+        gridTemplateColumns: `repeat(${Math.ceil(props.result.length / MaxRowsInColumn)}, 1fr)`,
       }"
     >
       <li v-for="({ name, vote }, idx) of props.result" :key="idx" class="result-item">
@@ -57,7 +59,6 @@ const props = defineProps<{
 
 .card {
   backface-visibility: hidden;
-  perspective: 1000;
   font-size: 0.8em;
 }
 

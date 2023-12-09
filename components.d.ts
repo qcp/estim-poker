@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     CardsSelector: typeof import('./src/components/CardsSelector.vue')['default']
     GameResult: typeof import('./src/components/GameResult.vue')['default']
+    GameResultGrouped: typeof import('./src/components/GameResultGrouped.vue')['default']
     GameSettings: typeof import('./src/components/GameSettings.vue')['default']
     PButton: typeof import('primevue/button')['default']
     PCard: typeof import('primevue/card')['default']

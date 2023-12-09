@@ -15,10 +15,10 @@ const vote = defineModel<string>('vote')
     <poker-card
       v-for="{ name, tooltip } of voteSystem.options"
       :key="name"
+      v-tooltip.top="tooltip"
       :vote="name"
       :selected="vote === name"
       with-hover
-      :tooltip="tooltip"
       @click="vote = vote === name ? undefined : name"
     />
   </div>

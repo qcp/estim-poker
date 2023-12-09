@@ -14,6 +14,8 @@ const gameId = Array.isArray(routerIds) ? routerIds.at(0)! : routerIds!
 
 const user = useUser()
 const { gameName, showResult, voteSystemName, state, reset } = useGame(gameId, user)
+
+const groupedView = ref(false)
 </script>
 
 <template>
@@ -31,8 +33,23 @@ const { gameName, showResult, voteSystemName, state, reset } = useGame(gameId, u
         <p-button icon="pi pi-share-alt" text @click="shareDialogEl?.toggle()" />
       </div>
       <div class="p-card content">
-        <game-result :result="state" :show="showResult" />
+        <div style="flex-grow: 1;" />
+
+        <transition name="slide" mode="out-in">
+          <game-result-grouped v-if="groupedView" :result="state" :vote-system-name="voteSystemName" :show="showResult" />
+          <game-result v-else :result="state" :show="showResult" />
+        </transition>
+
+        <div style="flex-grow: 1;" />
+
         <div class="actions">
+          <p-button
+            v-tooltip.top="groupedView ? 'Show each vote' : 'Show grouped votes'"
+            :icon="groupedView ? 'pi pi-table' : 'pi pi-th-large'"
+            severity="secondary"
+            text
+            @click="() => groupedView = !groupedView"
+          />
           <p-button
             :icon="showResult ? 'pi pi-eye-slash' : 'pi pi-eye'"
             :label="showResult ? 'Hide result' : 'Show result'"
@@ -40,13 +57,19 @@ const { gameName, showResult, voteSystemName, state, reset } = useGame(gameId, u
             style="width: 20ch"
             @click="() => (showResult = !showResult)"
           />
-          <p-button icon="pi pi-refresh" severity="danger" text @click="reset" />
+          <p-button
+            v-tooltip.top="'Reset votes'"
+            icon="pi pi-refresh"
+            severity="danger"
+            text
+            @click="reset"
+          />
         </div>
       </div>
       <div class="p-card selector">
         <cards-selector
           v-model:vote="user.vote"
-          :vote-system-name="voteSystemName ?? 'classic'"
+          :vote-system-name="voteSystemName"
           :class="{ 'p-disabled': showResult }"
         />
       </div>
@@ -80,10 +103,12 @@ const { gameName, showResult, voteSystemName, state, reset } = useGame(gameId, u
   padding: var(--inline-spacing);
 }
 .content {
+  min-height: 50vh;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--content-padding);
+  gap: var(--inline-spacing);
   padding: var(--content-padding);
 }
 
@@ -94,5 +119,20 @@ const { gameName, showResult, voteSystemName, state, reset } = useGame(gameId, u
   display: flex;
   gap: var(--inline-spacing);
   align-items: center;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.25s ease-out;
+}
+
+.slide-enter-from {
+  opacity: 0;
+  translate: 10ch;
+}
+
+.slide-leave-to {
+  opacity: 0;
+  translate: -10ch;
 }
 </style>

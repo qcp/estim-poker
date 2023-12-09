@@ -7,6 +7,10 @@ import { useErrorHandler } from './composables/useErrorHandler'
 const { themeIcon, toggleTheme } = useTheme()
 const { handleError } = useErrorHandler()
 
+function openGithub() {
+  window.open('https://github.com/qcp/estim-poker', '_blank')
+}
+
 onErrorCaptured(error => handleError(error))
 window.addEventListener('error', e => handleError(e.error), true)
 window.addEventListener('unhandledrejection', e => handleError(e.reason), true)
@@ -18,8 +22,9 @@ window.addEventListener('unhandledrejection', e => handleError(e.reason), true)
     <router-view />
     <stack-footer />
   </section>
-  <div class="theme">
-    <i :class="themeIcon" @click="() => toggleTheme()" />
+  <div class="tool-bar">
+    <p-button icon="pi pi-github" text rounded @click="() => openGithub()" />
+    <p-button :icon="themeIcon" text rounded @click="() => toggleTheme()" />
   </div>
 </template>
 
@@ -35,6 +40,9 @@ body {
 #app {
   height: 100%;
 }
+.p-button:enabled:focus {
+  box-shadow: unset;
+}
 </style>
 
 <style scoped>
@@ -46,10 +54,12 @@ body {
   align-items: center;
   justify-content: center;
 }
-.theme {
+.tool-bar {
   position: absolute;
-  right: 1em;
-  top: 1em;
-  cursor: pointer;
+  right: var(--inline-spacing);
+  top: var(--inline-spacing);
+
+  display: flex;
+  gap: var(--inline-spacing);
 }
 </style>

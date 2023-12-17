@@ -5,15 +5,26 @@ import { useTheme } from './composables/useTheme'
 import { useErrorHandler } from './composables/useErrorHandler'
 
 const { themeIcon, toggleTheme } = useTheme()
-const { handleError } = useErrorHandler()
+const router = useRouter()
+
+const { handleError } = useErrorHandler({
+  onApiError: (error) => {
+    if (error.message === `Couldn't parse game info`) {
+      router.push({ name: 'hello' })
+    }
+  },
+})
 
 function openGithub() {
   window.open('https://github.com/qcp/estim-poker', '_blank')
 }
 
-onErrorCaptured(error => handleError(error))
-window.addEventListener('error', e => handleError(e.error), true)
-window.addEventListener('unhandledrejection', e => handleError(e.reason), true)
+// Register listener only once
+onMounted(() => {
+  onErrorCaptured(error => handleError(error))
+  useEventListener(window, 'error', e => handleError(e.error), true)
+  useEventListener(window, 'unhandledrejection', e => handleError(e.reason), true)
+})
 </script>
 
 <template>

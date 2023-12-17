@@ -24,7 +24,6 @@ function gameModel(raw: any) {
     }), raw)
   }
   catch (error) {
-    console.warn(error)
     throw new ApiError(`Couldn't parse game info`)
   }
 }
@@ -38,7 +37,6 @@ function userModel(raw: any) {
     }), raw)
   }
   catch (error) {
-    console.warn(error)
     throw new ApiError(`Couldn't parse user info`)
   }
 }
@@ -48,7 +46,6 @@ function voteSystemModel(raw: any) {
     return parse(picklist(VoteSystems), raw)
   }
   catch (error) {
-    console.warn(error)
     throw new ApiError(`Couldn't parse vote system`)
   }
 }

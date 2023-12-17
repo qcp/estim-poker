@@ -112,6 +112,9 @@ export function useGame(id: string, user: Ref<IUser>) {
   /** Show result flag */
   const showResult = ref(false)
 
+  /** Visibility to check user activity */
+  const visibility = useDocumentVisibility()
+
   const room = supabase.channel(`game-${id}`)
 
   // #region helper functions
@@ -186,6 +189,8 @@ export function useGame(id: string, user: Ref<IUser>) {
   watch(user, data => track(data), { deep: true, immediate: true })
   /** Track show result flag @see showResult */
   watchEffect(() => send(Messages.ShowResult, { value: showResult.value }))
+  /** Track visibility and updade track state */
+  watch(visibility, vis => vis === 'visible' && track(user.value))
 
   const gameName = computed({
     get: () => game.value?.name,

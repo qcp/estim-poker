@@ -5,39 +5,47 @@
     {
       "name": "☕",
       "value": 0,
-      "tooltip": "no cost"
+      "tooltip": "less 30m"
     },
     {
       "name": "0.5",
-      "value": 0.5
+      "value": 0.5,
+      "tooltip": "less 2h"
     },
     {
       "name": "1",
-      "value": 1
+      "value": 1,
+      "tooltip": "half day"
     },
     {
       "name": "2",
-      "value": 2
+      "value": 2,
+      "tooltip": "abt day"
     },
     {
       "name": "3",
-      "value": 3
+      "value": 3,
+      "tooltip": "1-2 days"
     },
     {
       "name": "5",
-      "value": 5
+      "value": 5,
+      "tooltip": "2-3 days"
     },
     {
       "name": "8",
-      "value": 8
+      "value": 8,
+      "tooltip": "3-5 days"
     },
     {
       "name": "13",
-      "value": 13
+      "value": 13,
+      "tooltip": "2 weeks"
     },
     {
       "name": "21",
-      "value": 21
+      "value": 21,
+      "tooltip": "3 weeks"
     },
     {
       "name": "🤷‍♂️",

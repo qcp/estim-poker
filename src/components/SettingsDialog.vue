@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import type { IVoteSystems } from '@/constants/voteSystem'
 
+const voteSystemOptions = computed(() =>
+  VoteSystems.map(name => ({
+    name,
+    description: VoteSystemConfig[name].description,
+  })),
+)
+
 const gameName = defineModel<string>('gameName')
 const voteSystemName = defineModel<IVoteSystems>('voteSystemName')
 
@@ -8,6 +15,24 @@ const gameNameDraft = ref<string>(getRandomGameName())
 const voteSystemNameDraft = ref<IVoteSystems>('fibonachi')
 
 const [visible, toggle] = useToggle()
+
+const constraint = computed(() => {
+  const errors = new Map<'gameName' | 'voteSystemName', string>()
+  const gameName = gameNameDraft.value?.trim()
+  if (!gameName) {
+    errors.set('gameName', `Name must be non empty`)
+  }
+  else if (gameName.length < 3) {
+    errors.set('gameName', `Name must be at least 3 symbol length`)
+  }
+  else if (gameName.length > 15) {
+    errors.set('gameName', `Name must be less 15 symbol length`)
+  }
+  if (!voteSystemNameDraft.value) {
+    errors.set('voteSystemName', `Select prefered vote system`)
+  }
+  return errors
+})
 
 watch(
   gameName,
@@ -19,7 +44,7 @@ watch(
   { immediate: true },
 )
 watch(
-  gameName,
+  voteSystemName,
   () => {
     if (voteSystemName.value) {
       voteSystemNameDraft.value = voteSystemName.value
@@ -28,16 +53,8 @@ watch(
   { immediate: true },
 )
 
-const saveReady = computed(
-  () =>
-    // Required field exist
-    gameNameDraft.value
-    && voteSystemNameDraft.value
-    // Has any changes in fields
-    && !(gameName.value === gameNameDraft.value && voteSystemName.value === voteSystemNameDraft.value),
-)
 function save() {
-  gameName.value = gameNameDraft.value
+  gameName.value = gameNameDraft.value.trim()
   voteSystemName.value = voteSystemNameDraft.value
 
   visible.value = false
@@ -56,16 +73,40 @@ defineExpose({ toggle })
       content: { style: 'padding: unset' },
     }"
   >
-    <game-settings
-      v-model:game-name="gameNameDraft"
-      v-model:vote-system-name="voteSystemNameDraft"
-    />
+    <div class="settings">
+      <div class="group">
+        <span>Game name</span>
+        <p-input-text
+          id="game-name"
+          v-model="gameNameDraft"
+          :class="{ 'p-invalid': constraint.has('gameName') }"
+          :maxlength="20"
+        />
+        <small v-if="constraint.has('gameName')" id="game-name-help">{{ constraint.get('gameName') }}</small>
+      </div>
+      <div class="group">
+        <span>Game vote system</span>
+        <p-dropdown
+          id="vote-system"
+          v-model="voteSystemNameDraft"
+          :options="voteSystemOptions"
+          :class="{ 'p-invalid': constraint.has('voteSystemName') }"
+          option-value="name"
+          option-label="description"
+        />
+        <small v-if="constraint.has('voteSystemName')" id="vote-systemc">{{ constraint.get('voteSystemName') }}</small>
+      </div>
+      <div class="group">
+        <span>Vote system preview</span>
+        <cards-selector :vote-system-name="voteSystemNameDraft" />
+      </div>
+    </div>
     <div class="actions">
       <p-button
         icon="pi pi-save"
         label="save"
         severity="success"
-        :disabled="!saveReady"
+        :disabled="constraint.size > 0"
         @click="save"
       />
     </div>
@@ -73,6 +114,17 @@ defineExpose({ toggle })
 </template>
 
 <style scoped>
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--content-padding) * 1.5);
+  padding: var(--content-padding);
+}
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--inline-spacing);
+}
 .actions {
   display: flex;
   align-items: center;

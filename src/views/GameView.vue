@@ -72,7 +72,10 @@ const groupedView = ref(false)
           />
         </div>
 
-        <p-overlay-panel ref="userSettingsEl">
+        <p-overlay-panel
+          ref="userSettingsEl"
+          :pt="{ content: { style: { padding: 'var(--inline-spacing)' } } }"
+        >
           <user-settings v-model:username="user.name" />
         </p-overlay-panel>
         <share-dialog ref="shareDialogEl" />

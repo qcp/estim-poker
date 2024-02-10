@@ -1,5 +1,6 @@
 import { object, optional, parse, picklist, string } from 'valibot'
 import type { PostgrestError } from '@supabase/supabase-js'
+import type { Ref } from 'vue'
 import supabase from '@/plugins/supabase'
 
 function throwIfNok(res: string, event: string) {

@@ -16,7 +16,9 @@ const usersByVote = computed(() => {
   const grouped: Record<string, Array<string>> = {}
 
   for (const { name, vote } of props.result) {
-    if (!vote) { continue }
+    if (!vote) {
+      continue
+    }
 
     if (grouped[vote]) {
       grouped[vote] = [...grouped[vote], name]

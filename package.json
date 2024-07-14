@@ -51,5 +51,16 @@
     "vite": "^5.3.3",
     "vue-component-type-helpers": "^2.0.26",
     "vue-tsc": "^2.0.26"
-  }
+  },
+  "overrides": {
+    "@typescript-eslint/eslint-plugin": "rc-v8"
+  },
+  "cpu": [
+    "arm64",
+    "x64"
+  ],
+  "os": [
+    "linux",
+    "win32"
+  ]
 }

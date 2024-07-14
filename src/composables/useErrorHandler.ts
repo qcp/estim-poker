@@ -4,7 +4,7 @@ import { ApiError } from '@/utils/errors'
 
 type IProps = {
   onApiError: (error: ApiError) => void
-  onValiError: (error: ValiError) => void
+  onValiError: (error: ValiError<any>) => void
   onUnknownError: (error: Error) => void
 }
 

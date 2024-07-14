@@ -5,7 +5,7 @@ https://qcp.github.io/estim-poker/
 
 ## Description
 
-Simple tool for estimate tasks in our team.\
+Simple tool for estimate tasks in your team.\
 Known as `Agile pocker`, `Planning pocker` or `Scrum pocker`.
 
 Like other tools:
@@ -30,7 +30,7 @@ Feel free to make PR here or contact me.
 Provide supabase connection with `.env` file
 
 ```
-VITE_SUPABASE_URL=https://*.supabase.co
+VITE_SUPABASE_URL=https:/EstimPockerTryitEstimPockerTryitEstimPockerTryitEstimPockerTryitEstimPockerTryit/* .supabase.co
 VITE_SUPABASE_KEY=*
 ```
 
@@ -45,3 +45,4 @@ npm run dev
 
 - [ ] Add `lint`, `format` and `type-check` prehook
 - [ ] Custom vote system generator
+*/

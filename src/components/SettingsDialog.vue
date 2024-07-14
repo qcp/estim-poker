@@ -69,7 +69,7 @@ defineExpose({ toggle })
     modal
     header="Game settings"
     :pt="{
-      header: { style: 'padding: var(--inline-spacing)' },
+      header: { style: 'padding: 0.5rem' },
       content: { style: 'padding: unset' },
     }"
   >
@@ -86,7 +86,7 @@ defineExpose({ toggle })
       </div>
       <div class="group">
         <span>Game vote system</span>
-        <p-dropdown
+        <p-select
           id="vote-system"
           v-model="voteSystemNameDraft"
           :options="voteSystemOptions"
@@ -117,18 +117,20 @@ defineExpose({ toggle })
 .settings {
   display: flex;
   flex-direction: column;
-  gap: calc(var(--content-padding) * 1.5);
-  padding: var(--content-padding);
+  gap: calc(1rem * 1.5);
+  padding: 1rem;
 }
+
 .group {
   display: flex;
   flex-direction: column;
-  gap: var(--inline-spacing);
+  gap: 0.5rem;
 }
+
 .actions {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--inline-spacing);
+  padding: 0.5rem;
 }
 </style>

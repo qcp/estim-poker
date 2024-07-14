@@ -66,26 +66,28 @@ const usersByVote = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--content-padding)
+  gap: 1rem;
 }
+
 .result-wrapper {
   height: 100%;
   width: 100%;
   overflow: auto;
-  padding: 0 calc(var(--content-padding) * 3);
-
+  padding: 0 calc(1rem * 3);
   display: flex;
   align-items: center;
 }
+
 .result-list {
   display: flex;
   flex-direction: column;
-  gap: var(--inline-spacing)
+  gap: 0.5rem
 }
+
 .result-item {
   display: flex;
   align-items: center;
-  gap: var(--inline-spacing);
+  gap: 0.5rem;
 }
 
 .card {

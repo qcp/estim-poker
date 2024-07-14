@@ -8,23 +8,25 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     CardsSelector: typeof import('./src/components/CardsSelector.vue')['default']
+    GameHistory: typeof import('./src/components/GameHistory.vue')['default']
     GameResult: typeof import('./src/components/GameResult.vue')['default']
     GameResultGrouped: typeof import('./src/components/GameResultGrouped.vue')['default']
-    GameSettings: typeof import('./src/components/GameSettings.vue')['default']
     PButton: typeof import('primevue/button')['default']
     PCard: typeof import('primevue/card')['default']
     PDialog: typeof import('primevue/dialog')['default']
     PDivider: typeof import('primevue/divider')['default']
-    PDropdown: typeof import('primevue/dropdown')['default']
     PInputText: typeof import('primevue/inputtext')['default']
     PokerCard: typeof import('./src/components/PokerCard.vue')['default']
     PokerIcon: typeof import('./src/icons/PokerIcon.vue')['default']
-    POverlayPanel: typeof import('primevue/overlaypanel')['default']
+    PPopover: typeof import('primevue/popover')['default']
+    PSelect: typeof import('primevue/select')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SettingsDialog: typeof import('./src/components/SettingsDialog.vue')['default']
     ShareDialog: typeof import('./src/components/ShareDialog.vue')['default']
-    StackFooter: typeof import('./src/components/StackFooter.vue')['default']
     UserSettings: typeof import('./src/components/UserSettings.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    Tooltip: typeof import('primevue/tooltip')['default']
   }
 }

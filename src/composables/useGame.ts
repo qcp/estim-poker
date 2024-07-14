@@ -20,7 +20,7 @@ function gameModel(raw: any) {
     return parse(object({
       id: string(),
       name: string(),
-      vote_system: string(),
+      vote_system: picklist(VoteSystems),
       last_used_at: string(),
     }), raw)
   }
@@ -42,14 +42,6 @@ function userModel(raw: any) {
   }
 }
 type IUser = ReturnType<typeof userModel>
-function voteSystemModel(raw: any) {
-  try {
-    return parse(picklist(VoteSystems), raw)
-  }
-  catch (error) {
-    throw new ApiError(`Couldn't parse vote system`)
-  }
-}
 
 const PgGameTable = 'games'
 const Messages = {
@@ -196,7 +188,7 @@ export function useGame(id: string, user: Ref<IUser>) {
   })
 
   const voteSystemName = computed({
-    get: () => voteSystemModel(game.value?.vote_system),
+    get: () => game.value?.vote_system,
     set: val => updateGame({ vote_system: val }),
   })
 

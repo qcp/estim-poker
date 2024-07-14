@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { createGame, useGamesHistory } from '@/composables/useGame'
-import PockerIcon from '@/icons/PokerIcon.vue'
+import { createGame } from '@/composables/useGame'
+import { useTheme } from '@/composables/useTheme'
 
-const isPortrait = useMediaQuery('(orientation: portrait)')
-const { history, remove } = useGamesHistory()
+const { themeIcon, toggleTheme } = useTheme()
+
 const router = useRouter()
 
 function goToGame(id: string) {
@@ -14,56 +14,40 @@ async function createNewGame() {
   const newGame = await createGame(getRandomGameName(), 'shark')
   goToGame(newGame.id)
 }
+
+function openGithub() {
+  window.open('https://github.com/qcp/estim-poker', '_blank')
+}
 </script>
 
 <template>
   <section class="main">
     <section class="wrapper">
-      <p-card
-        :pt="{
-          content: {
-            style: {
-              display: 'grid',
-              [isPortrait ? 'grid-template-rows' : 'grid-template-columns']: '1fr auto 1fr',
-            },
-          },
-        }"
-      >
-        <template #content>
-          <div class="panel">
-            <pocker-icon class="icon-pocker" />
-            <p-button @click="createNewGame">
-              Create new game
-            </p-button>
-          </div>
-          <p-divider :layout="isPortrait ? 'horizontal' : 'vertical'" class="hidden md:flex">
-            <b>OR</b>
-          </p-divider>
-          <template v-if="history.length > 0">
-            <div class="panel">
-              <h4 style="margin: 0">
-                Join the old one
-              </h4>
-              <div class="game-list">
-                <div v-for="{ id, name } in history" :key="id" class="game-item">
-                  <i class="arrow pi pi-angle-double-right" />
-                  <span class="text" @click="goToGame(id)">{{ name }}</span>
-                  <i class="dell pi pi-trash" style="color: var(--red-500)" @click="remove(id)" />
-                </div>
-              </div>
-            </div>
-          </template>
-          <template v-else>
-            <div class="panel">
-              Your game history <br>
-              will be here...
-            </div>
-          </template>
-        </template>
-      </p-card>
+      <div class="header">
+        <h1 class="header-title">
+          <span class="header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 48 48">
+              <g class="card" fill="none" stroke-linejoin="round" stroke-width="4" stroke="var(--p-text-color)">
+                <path d="M42 4H12v40h30V4Z" />
+                <path stroke-linecap="round" d="M4 11.79L12 10v34L4 11.79Z" clip-rule="evenodd" />
+                <path stroke="var(--p-primary-color)" d="m27 18l-5 6l5 6l5-6l-5-6Z" />
+                <path stroke-linecap="round" d="M18 10v4m18 20v4" />
+              </g>
+            </svg>
+          </span>
+          <span>Estim Pocker</span>
+        </h1>
+        <span class="header-description">Simple tool for estimate tasks in your team</span>
+      </div>
+      <div class="actions">
+        <p-button icon="pi pi-github" text @click="openGithub" />
+        <p-button size="large" raised label="Create game" @click="createNewGame" />
+        <p-button :icon="themeIcon" text @click="toggleTheme" />
+      </div>
+      <game-history />
     </section>
 
-    <stack-footer />
+    <pre>{{ 'made with 💚 by qcp' }}</pre>
   </section>
 </template>
 
@@ -75,54 +59,44 @@ async function createNewGame() {
   align-items: center;
   justify-content: center;
 }
+
 .wrapper {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.panel {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--content-padding);
+  gap: 1em;
+  padding: 1em;
 }
 
-.game-list {
+.header {
   display: flex;
   flex-direction: column;
-  gap: var(--inline-spacing);
-}
-.game-item {
-  display: flex;
-  gap: var(--inline-spacing);
   align-items: center;
-
-  cursor: pointer;
-}
-.game-item .pi {
-  transition: all 0.5s;
-}
-.game-item .dell {
-  opacity: 0;
-}
-.game-item:hover .arrow {
-  color: var(--primary-500);
-  translate: calc(var(--inline-spacing) / 2) 0;
-}
-.game-item:hover .dell {
-  opacity: 1;
-}
-.game-item .text:hover {
-  text-decoration: underline;
+  justify-content: center;
 }
 
-.icon-pocker {
-  font-size: 5em;
-  color: var(--text-color);
+.header-icon {
+  vertical-align: middle;
 }
-.icon-pocker :deep(.suit) {
-  color: var(--primary-500);
+
+.header-title {
+  margin: 0;
+  font-size: 4em;
+  text-align: center;
+  gap: 0.2rem;
+}
+
+.header-description {
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
 }
 </style>

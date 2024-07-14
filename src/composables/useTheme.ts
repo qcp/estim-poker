@@ -1,42 +1,34 @@
-import { usePrimeVue } from 'primevue/config'
-
 export function useTheme() {
-  const Themes = {
-    light: 'lara-light-blue',
-    dark: 'lara-dark-blue',
-  } as const
-
-  const { changeTheme } = usePrimeVue()
-  const [theme, toggleTheme] = useToggle<typeof Themes.light, typeof Themes.dark>(Themes.light, {
-    truthyValue: Themes.light,
-    falsyValue: Themes.dark,
+  const isDark = useDark({
+    selector: 'html',
+    valueDark: 'theme-dark',
   })
+  const toggleDark = useToggle(isDark)
 
-  watch(theme, (newTheme, oldTheme) => changeTheme(oldTheme, newTheme, 'theme-link'))
+  const theme = computed(() => isDark.value ? 'dark' : 'light')
+  const themeIcon = computed(() => isDark.value ? 'pi pi-moon' : 'pi pi-sun')
 
-  const preferredColor = usePreferredColorScheme()
+  const toggleTheme = (theme?: 'dark' | 'light') => {
+    switch (theme) {
+      case 'dark': return toggleDark(true)
+      case 'light': return toggleDark(false)
+      default: return toggleDark()
+    }
+  }
 
+  const prefered = usePreferredColorScheme()
   watch(
-    preferredColor,
+    () => prefered.value,
     () => {
-      if (preferredColor.value === 'light' && theme.value !== Themes.light) {
-        theme.value = Themes.light
+      if (prefered.value === 'dark') {
+        toggleTheme('dark')
       }
-      else if (preferredColor.value === 'dark' && theme.value !== Themes.dark) {
-        theme.value = Themes.dark
+      else if (prefered.value === 'light') {
+        toggleTheme('light')
       }
     },
-    { immediate: true },
+    // { immediate: true },
   )
-
-  const themeIcon = computed(() => {
-    switch (theme.value) {
-      case Themes.light:
-        return 'pi pi-sun'
-      case Themes.dark:
-        return 'pi pi-moon'
-    }
-  })
 
   return {
     theme,

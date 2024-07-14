@@ -1,14 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
   <style>
     .card {
-      stroke: rgba(60, 60, 60, 0.66);
+      stroke: #334155;
     }
+
     .suit {
-      stroke: #3b82f6;
+      stroke: #34d399;
     }
+
     @media (prefers-color-scheme: dark) {
       .card {
-        stroke: rgba(235, 235, 235, 0.64);
+        stroke: #ffffff;
       }
     }
   </style>

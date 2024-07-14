@@ -15,7 +15,7 @@ async function copyUrl() {
     if (isSupported) {
       await copy(location.value.href!)
       toast.add({
-        detail: 'Link copied to clipboard',
+        summary: 'Link copied to clipboard',
         life: 5000,
         severity: 'success',
       })
@@ -23,7 +23,7 @@ async function copyUrl() {
   }
   catch (ex) {
     toast.add({
-      detail: 'Failed to copy',
+      summary: 'Failed to copy',
       life: 5000,
       severity: 'error',
     })
@@ -51,7 +51,7 @@ defineExpose({
     header="Share game"
     :pt="{
       root: { style: { 'max-width': '30ch' } },
-      header: { style: 'padding: var(--inline-spacing)' },
+      header: { style: 'padding: 0.5rem' },
       content: { style: 'padding: unset' },
     }"
   >
@@ -75,26 +75,27 @@ defineExpose({
 .share-dialog {
   display: flex;
   flex-direction: column;
-  gap: var(--inline-spacing);
-  padding: var(--content-padding);
-  padding-top: var(--inline-spacing);
+  gap: 0.5rem;
+  padding: 1rem;
+  padding-top: 0.5rem;
 }
+
 .link-wrapper {
   display: flex;
-  gap: var(--inline-spacing);
+  gap: 0.5rem;
 }
+
 .link {
   flex-grow: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  padding: var(--inline-spacing);
-  border: 1px solid var(--surface-border);
-  border-radius: var(--border-radius);
+  padding: 0.5rem;
+  border: 1px solid var(--p-inputtext-border-color);
+  border-radius: var(--p-button-border-radius);
 }
+
 .qrcode {
-  border: 1px solid var(--surface-border);
-  border-radius: var(--border-radius);
+  border: 1px solid var(--p-inputtext-border-color);
+  border-radius: var(--p-button-border-radius);
 }
 </style>

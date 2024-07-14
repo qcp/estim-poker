@@ -18,7 +18,7 @@ const props = defineProps<{
     <i v-if="!props.vote" style="font-size: inherit" class="pi pi-question" />
     <i
       v-else-if="props.hided"
-      style="font-size: inherit; color: var(--green-400)"
+      style="font-size: inherit; color: var(--p-green-400)"
       class="pi pi-check"
     />
     <span v-else> {{ props.vote }}</span>
@@ -27,36 +27,37 @@ const props = defineProps<{
 
 <style scoped>
 .card {
-  cursor: pointer;
-  border: 1px solid var(--surface-400);
-  border-radius: var(--border-radius);
-  background-color: var(--surface-50);
+  --card-background: var(--ground-background);
+  --card-border-color: var(--p-surface-400);
 
+  cursor: pointer;
+  border-radius: 0.2em;
+  border: 1px solid var(--card-border-color);
+  background-color: var(--card-background);
   width: 4ch;
   aspect-ratio: 2 / 3; /* brige size */
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   font-weight: bold;
-
   transition: all 0.1s ease-out;
 }
 
 .card.with-hover:hover {
-  border-color: var(--surface-500);
-  translate: 0 calc(var(--inline-spacing) * -1);
+  border-color: var(--p-surface-500);
+  translate: 0 calc(0.5rem * -1);
 }
+
 .card.selected {
-  border-color: var(--color-border-hover);
-  translate: 0 calc(var(--inline-spacing) * -1);
-  background-color: var(--color-background);
+  border-color: var(--p-color-border-hover);
+  translate: 0 calc(0.5rem * -1);
+  background-color: var(--p-color-background);
 }
+
 .card.selected::before {
   content: '▴';
-  color: var(--primary-color);
+  color: var(--p-primary-color);
   position: absolute;
-  bottom: calc(var(--inline-spacing) * -2);
+  bottom: calc(0.5rem * -2);
 }
 </style>

@@ -38,9 +38,9 @@ const MaxRowsInColumn = 5
 <style scoped>
 .result-list {
   display: grid;
-  column-gap: 2em;
-  row-gap: 0.5em;
+  gap: 0.5em 2em;
 }
+
 .result-item {
   display: flex;
   align-items: center;
@@ -56,9 +56,10 @@ const MaxRowsInColumn = 5
 .flip-enter-active {
   transition: rotate 0.2s ease;
 }
+
 .flip-leave-active {
   transition: rotate 0.2s ease;
-  transition-delay: var(--transition-delay);
+  transition-delay: var(--p-transition-delay);
 }
 
 .flip-enter-from,

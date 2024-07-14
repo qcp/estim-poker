@@ -30,7 +30,6 @@ const vote = defineModel<string>('vote')
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  column-gap: 0.5em;
-  row-gap: 1em;
+  gap: 1em 0.5em;
 }
 </style>

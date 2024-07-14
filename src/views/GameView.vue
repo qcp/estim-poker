@@ -3,11 +3,14 @@ import type { GlobalComponents } from 'vue'
 import type { ComponentExposed } from 'vue-component-type-helpers'
 
 import { useGame, useUser } from '@/composables/useGame'
+import { useTheme } from '@/composables/useTheme'
+
+const { themeIcon, toggleTheme } = useTheme()
 
 const shareDialogEl = ref<ComponentExposed<GlobalComponents['ShareDialog']>>()
 const settingsDialogEl = ref<ComponentExposed<GlobalComponents['SettingsDialog']>>()
 
-const userSettingsEl = ref<InstanceType<GlobalComponents['OverlayPanel']>>()
+const userSettingsEl = ref<InstanceType<GlobalComponents['Popover']>>()
 
 const { params: { id: routerIds } } = useRoute()
 const gameId = Array.isArray(routerIds) ? routerIds.at(0)! : routerIds!
@@ -25,67 +28,85 @@ const groupedView = ref(false)
         <i class="pi pi-spin pi-spinner" style="font-size: 3em" />
       </template>
       <template v-else>
-        <div class="p-card header">
-          <p-button icon="pi pi-home" text @click="$router.push({ name: 'hello' })" />
-          <b style="font-size: 1.25em">{{ gameName }}</b>
-          <div style="flex-grow: 1" />
-          <p-button icon="pi pi-user-edit" text @click="(e) => userSettingsEl?.toggle(e)" />
-          <p-button icon="pi pi-cog" text @click="settingsDialogEl?.toggle()" />
-          <p-button icon="pi pi-share-alt" text @click="shareDialogEl?.toggle()" />
-        </div>
-        <div class="p-card content">
-          <div class="result">
-            <transition name="slide" mode="out-in">
-              <game-result-grouped v-if="groupedView" :result="state" :vote-system-name="voteSystemName" :show="showResult" />
-              <game-result v-else :result="state" :show="showResult" />
-            </transition>
-          </div>
-          <div class="actions">
-            <p-button
-              v-tooltip.top="groupedView ? 'Show each vote' : 'Show grouped votes'"
-              :icon="groupedView ? 'pi pi-table' : 'pi pi-th-large'"
-              severity="secondary"
-              text
-              @click="() => groupedView = !groupedView"
-            />
-            <p-button
-              :icon="showResult ? 'pi pi-eye-slash' : 'pi pi-eye'"
-              :label="showResult ? 'Hide result' : 'Show result'"
-              text
-              style="width: 20ch"
-              @click="() => (showResult = !showResult)"
-            />
-            <p-button
-              v-tooltip.top="'Reset votes'"
-              icon="pi pi-refresh"
-              severity="danger"
-              text
-              @click="reset"
-            />
-          </div>
-        </div>
-        <div class="p-card selector">
-          <cards-selector
-            v-model:vote="user.vote"
-            :vote-system-name="voteSystemName"
-            :class="{ 'p-disabled': showResult }"
-          />
-        </div>
-
-        <p-overlay-panel
-          ref="userSettingsEl"
-          :pt="{ content: { style: { padding: 'var(--inline-spacing)' } } }"
+        <p-card>
+          <template #content>
+            <div class="header">
+              <p-button icon="pi pi-home" text @click="$router.push({ name: 'hello' })" />
+              <b style="font-size: 1.25em">{{ gameName }}</b>
+              <div style="flex-grow: 1" />
+              <p-button icon="pi pi-user-edit" text @click="(e) => userSettingsEl?.toggle(e)" />
+              <p-button icon="pi pi-cog" text @click="settingsDialogEl?.toggle()" />
+              <p-button icon="pi pi-share-alt" text @click="shareDialogEl?.toggle()" />
+              <p-button :icon="themeIcon" text @click="toggleTheme" />
+            </div>
+          </template>
+        </p-card>
+        <p-card
+          class="card-content"
+          :pt="{
+            body: { style: { flexGrow: 1 } },
+            content: { style: { flexGrow: 1 } },
+          }"
         >
-          <user-settings v-model:username="user.name" />
-        </p-overlay-panel>
-        <share-dialog ref="shareDialogEl" />
-        <settings-dialog
-          ref="settingsDialogEl"
-          v-model:game-name="gameName"
-          v-model:vote-system-name="voteSystemName"
-        />
+          <template #content>
+            <div class="content">
+              <div class="result">
+                <transition name="slide" mode="out-in">
+                  <game-result-grouped v-if="groupedView" :result="state" :vote-system-name="voteSystemName" :show="showResult" />
+                  <game-result v-else :result="state" :show="showResult" />
+                </transition>
+              </div>
+            </div>
+          </template>
+          <template #footer>
+            <div class="actions">
+              <p-button
+                v-tooltip.top="groupedView ? 'Show each vote' : 'Show grouped votes'"
+                :icon="groupedView ? 'pi pi-table' : 'pi pi-th-large'"
+                severity="secondary"
+                text
+                @click="() => groupedView = !groupedView"
+              />
+              <p-button
+                :icon="showResult ? 'pi pi-eye-slash' : 'pi pi-eye'"
+                :label="showResult ? 'Hide result' : 'Show result'"
+                text
+                style="width: 20ch"
+                @click="() => (showResult = !showResult)"
+              />
+              <p-button
+                v-tooltip.top="'Reset votes'"
+                icon="pi pi-refresh"
+                severity="danger"
+                text
+                @click="reset"
+              />
+            </div>
+          </template>
+        </p-card>
+        <p-card>
+          <template #content>
+            <cards-selector
+              v-model:vote="user.vote"
+              :vote-system-name="voteSystemName"
+              :class="{ 'p-disabled': showResult }"
+            />
+          </template>
+        </p-card>
       </template>
     </section>
+    <p-popover
+      ref="userSettingsEl"
+      :pt="{ content: { style: { padding: '0.5rem' } } }"
+    >
+      <user-settings v-model:username="user.name" />
+    </p-popover>
+    <share-dialog ref="shareDialogEl" />
+    <settings-dialog
+      ref="settingsDialogEl"
+      v-model:game-name="gameName"
+      v-model:vote-system-name="voteSystemName"
+    />
   </section>
 </template>
 
@@ -97,45 +118,50 @@ const groupedView = ref(false)
   align-items: center;
   justify-content: center;
 }
+
 .wrapper {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: var(--content-padding);
-  padding: var(--content-padding);
+  gap: 1rem;
+  padding: 1rem;
 }
+
 .header {
   display: flex;
   align-items: center;
-  gap: var(--inline-spacing);
-  padding: var(--inline-spacing);
+  gap: 0.5rem;
 }
-.content {
-  min-height: 50vh;
 
+.content {
+  min-height: 40vh;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   align-items: center;
-  gap: var(--inline-spacing);
-  padding: var(--content-padding);
+  gap: 0.5rem;
 }
+
+@media only screen and (orientation : portrait) {
+  .card-content {
+    flex-grow: 1;
+  }
+}
+
 .result {
   overflow: hidden;
   flex-grow: 1;
-
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .actions {
   display: flex;
-  gap: var(--inline-spacing);
+  gap: 0.5rem;
   align-items: center;
-}
-
-.selector {
-  padding: var(--content-padding);
+  justify-content: center;
 }
 
 .slide-enter-active,

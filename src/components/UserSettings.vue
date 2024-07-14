@@ -52,11 +52,12 @@ watchDebounced(
 .username-container {
   display: flex;
   flex-direction: column;
-  gap: var(--inline-spacing);
+  gap: 0.5rem;
 }
+
 .usename-input {
   display: flex;
   align-items: center;
-  gap: var(--inline-spacing);
+  gap: 0.5rem;
 }
 </style>

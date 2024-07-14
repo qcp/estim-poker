@@ -34,7 +34,7 @@ const groupedView = ref(false)
               <p-button icon="pi pi-home" text @click="$router.push({ name: 'hello' })" />
               <b style="font-size: 1.25em">{{ gameName }}</b>
               <div style="flex-grow: 1" />
-              <p-button icon="pi pi-user-edit" text @click="(e) => userSettingsEl?.toggle(e)" />
+              <p-button icon="pi pi-user-edit" text @click="(e: Event) => userSettingsEl?.toggle(e)" />
               <p-button icon="pi pi-cog" text @click="settingsDialogEl?.toggle()" />
               <p-button icon="pi pi-share-alt" text @click="shareDialogEl?.toggle()" />
               <p-button :icon="themeIcon" text @click="toggleTheme" />

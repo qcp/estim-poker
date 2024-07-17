@@ -92,7 +92,6 @@ const usersByVote = computed(() => {
 
 .card {
   backface-visibility: hidden;
-  font-size: 0.8em;
 }
 
 .slide-enter-active,

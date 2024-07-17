@@ -23,7 +23,6 @@ html {
 }
 
 body {
-  height: 100%;
   background-color: var(--ground-background);
   color: var(--p-text-color);
   font-size: 14px;
@@ -36,7 +35,9 @@ body {
 }
 
 #app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-  height: 100%;
 }
 

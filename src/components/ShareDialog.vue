@@ -49,15 +49,10 @@ defineExpose({
     modal
     dismissable-mask
     header="Share game"
-    :pt="{
-      root: { style: { 'max-width': '30ch' } },
-      header: { style: 'padding: 0.5rem' },
-      content: { style: 'padding: unset' },
-    }"
   >
     <div class="share-dialog">
       <div class="link-wrapper">
-        <a :href="location.href" class="link">Invite link</a>
+        <a :href="location.href" class="link" target="_blank">Invite link</a>
         <p-button
           v-if="isSupported"
           :icon="copied ? 'pi pi-check' : 'pi pi-copy'"
@@ -76,8 +71,6 @@ defineExpose({
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1rem;
-  padding-top: 0.5rem;
 }
 
 .link-wrapper {
@@ -90,12 +83,13 @@ defineExpose({
   display: flex;
   align-items: center;
   padding: 0.5rem;
-  border: 1px solid var(--p-inputtext-border-color);
+  border: 1px solid var(--p-button-outlined-secondary-border-color);
   border-radius: var(--p-button-border-radius);
 }
 
 .qrcode {
-  border: 1px solid var(--p-inputtext-border-color);
+  max-width: 30ch;
+  border: 1px solid var(--p-button-outlined-secondary-border-color);
   border-radius: var(--p-button-border-radius);
 }
 </style>

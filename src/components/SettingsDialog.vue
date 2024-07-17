@@ -69,39 +69,36 @@ defineExpose({ toggle })
     modal
     header="Game settings"
     :pt="{
-      header: { style: 'padding: 0.5rem' },
-      content: { style: 'padding: unset' },
+      footer: { style: 'justify-content: center' },
     }"
   >
     <div class="settings">
       <div class="group">
-        <span>Game name</span>
+        <label>Game name</label>
         <p-input-text
-          id="game-name"
           v-model="gameNameDraft"
-          :class="{ 'p-invalid': constraint.has('gameName') }"
           :maxlength="20"
+          :invalid="constraint.has('gameName')"
         />
-        <small v-if="constraint.has('gameName')" id="game-name-help">{{ constraint.get('gameName') }}</small>
+        <small v-if="constraint.has('gameName')">{{ constraint.get('gameName') }}</small>
       </div>
       <div class="group">
-        <span>Game vote system</span>
+        <label>Game vote system</label>
         <p-select
-          id="vote-system"
           v-model="voteSystemNameDraft"
           :options="voteSystemOptions"
-          :class="{ 'p-invalid': constraint.has('voteSystemName') }"
+          :invalid="constraint.has('voteSystemName')"
           option-value="name"
           option-label="description"
         />
-        <small v-if="constraint.has('voteSystemName')" id="vote-systemc">{{ constraint.get('voteSystemName') }}</small>
+        <small v-if="constraint.has('voteSystemName')">{{ constraint.get('voteSystemName') }}</small>
       </div>
       <div class="group">
-        <span>Vote system preview</span>
+        <label>Vote system preview</label>
         <cards-selector :vote-system-name="voteSystemNameDraft" />
       </div>
     </div>
-    <div class="actions">
+    <template #footer>
       <p-button
         icon="pi pi-save"
         label="save"
@@ -109,7 +106,7 @@ defineExpose({ toggle })
         :disabled="constraint.size > 0"
         @click="save"
       />
-    </div>
+    </template>
   </p-dialog>
 </template>
 
@@ -118,19 +115,11 @@ defineExpose({ toggle })
   display: flex;
   flex-direction: column;
   gap: calc(1rem * 1.5);
-  padding: 1rem;
 }
 
 .group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
 }
 </style>

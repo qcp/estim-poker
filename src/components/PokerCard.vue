@@ -37,6 +37,7 @@ const props = defineProps<{
   width: 4ch;
   aspect-ratio: 2 / 3; /* brige size */
   display: flex;
+  flex-shrink: 0;
   justify-content: center;
   align-items: center;
   font-weight: bold;
@@ -44,7 +45,6 @@ const props = defineProps<{
 }
 
 .card.with-hover:hover {
-  border-color: var(--p-surface-500);
   translate: 0 calc(0.5rem * -1);
 }
 

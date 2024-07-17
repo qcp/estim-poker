@@ -37,14 +37,13 @@ watchDebounced(
   <div class="username-container">
     <span class="usename-input">
       <p-input-text
-        id="username"
         v-model="usernameDraft"
-        :class="{ 'p-invalid': constraint.has('username') }"
+        :invalid="constraint.has('username')"
         :maxlength="20"
       />
       <i v-show="usernameDraft !== username && constraint.size === 0" class="pi pi-spin pi-spinner" />
     </span>
-    <small v-if="constraint.has('username')" id="username-help">{{ constraint.get('username') }}</small>
+    <small v-if="constraint.has('username')">{{ constraint.get('username') }}</small>
   </div>
 </template>
 

@@ -50,7 +50,6 @@ const MaxRowsInColumn = 5
 
 .card {
   backface-visibility: hidden;
-  font-size: 0.8em;
 }
 
 .flip-enter-active {

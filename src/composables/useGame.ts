@@ -24,7 +24,7 @@ function gameModel(raw: any) {
       last_used_at: string(),
     }), raw)
   }
-  catch (error) {
+  catch {
     throw new ApiError(`Couldn't parse game info`)
   }
 }
@@ -37,7 +37,7 @@ function userModel(raw: any) {
       vote: optional(string()),
     }), raw)
   }
-  catch (error) {
+  catch {
     throw new ApiError(`Couldn't parse user info`)
   }
 }

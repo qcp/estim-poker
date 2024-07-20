@@ -14,8 +14,8 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "lint:css": "stylelint src/**/*.{vue,css}",
-    "lint:css:fix": "stylelint src/**/*.{vue,css} --fix"
+    "stylelint": "stylelint src/**/*.{vue,css}",
+    "stylelint:fix": "stylelint src/**/*.{vue,css} --fix"
   },
   "dependencies": {
     "@primevue/themes": "^4.0.0",

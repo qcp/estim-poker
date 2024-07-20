@@ -21,7 +21,7 @@ async function copyUrl() {
       })
     }
   }
-  catch (ex) {
+  catch {
     toast.add({
       summary: 'Failed to copy',
       life: 5000,

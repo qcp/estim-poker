@@ -15,10 +15,10 @@ const props = defineProps<{
       'selected': props.selected,
     }"
   >
-    <i v-if="!props.vote" style="font-size: inherit" class="pi pi-question" />
+    <i v-if="!props.vote" style="font-size: inherit;" class="pi pi-question" />
     <i
       v-else-if="props.hided"
-      style="font-size: inherit; color: var(--p-green-400)"
+      style="font-size: inherit; color: var(--p-green-400);"
       class="pi pi-check"
     />
     <span v-else> {{ props.vote }}</span>
@@ -55,7 +55,7 @@ const props = defineProps<{
 }
 
 .card.selected::before {
-  content: '▴';
+  content: "▴";
   color: var(--p-primary-color);
   position: absolute;
   bottom: calc(0.5rem * -2);

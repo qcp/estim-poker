@@ -23,7 +23,7 @@ function goToGame(id: string) {
         <div v-for="{ id, name } in history" :key="id" class="game-item">
           <i class="arrow pi pi-angle-double-right" />
           <a class="text" :href="getLink(id)" @click.prevent="goToGame(id)">{{ name }}</a>
-          <i class="dell pi pi-trash" style="color: var(--p-red-500)" @click="remove(id)" />
+          <i class="dell pi pi-trash" style="color: var(--p-red-500);" @click="remove(id)" />
         </div>
       </div>
     </template>

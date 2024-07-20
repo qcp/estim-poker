@@ -33,6 +33,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^2.21.3",
     "@primevue/auto-import-resolver": "^4.0.0",
+    "@stylistic/stylelint-config": "^1.0.1",
     "@tsconfig/node18": "^18.2.4",
     "@types/luxon": "^3.4.2",
     "@types/node": "^20.14.10",

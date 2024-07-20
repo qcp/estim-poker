@@ -25,7 +25,7 @@ const groupedView = ref(false)
 
 <template>
   <section v-if="!(gameName && voteSystemName)" class="loading">
-    <i class="pi pi-spin pi-spinner" style="font-size: 3em" />
+    <i class="pi pi-spin pi-spinner" style="font-size: 3em;" />
   </section>
   <section v-else class="main">
     <p-card>
@@ -68,7 +68,7 @@ const groupedView = ref(false)
             :icon="showResult ? 'pi pi-eye-slash' : 'pi pi-eye'"
             :label="showResult ? 'Hide result' : 'Show result'"
             text
-            style="width: 20ch"
+            style="width: 20ch;"
             @click="() => (showResult = !showResult)"
           />
           <p-button

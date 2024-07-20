@@ -54,7 +54,7 @@ const usersByVote = computed(() => {
             />
           </transition>
           <span v-if="names.length > 1"> x<b>{{ names.length }}</b> </span>
-          <span style="color: var(--text-color-secondary)">{{ names.join(', ') }} </span>
+          <span style="color: var(--text-color-secondary);">{{ names.join(', ') }} </span>
         </div>
       </div>
     </div>
@@ -81,7 +81,7 @@ const usersByVote = computed(() => {
 .result-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem
+  gap: 0.5rem;
 }
 
 .result-item {

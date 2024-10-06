@@ -1,48 +1,75 @@
-# Estim Pocker
+# Nuxt 3 Minimal Starter
 
-Try it:
-https://qcp.github.io/estim-poker/
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## Description
+## Setup
 
-Simple tool for estimate tasks in your team.\
-Known as `Agile pocker`, `Planning pocker` or `Scrum pocker`.
-
-Like other tools:
-
-- https://planningpokeronline.com
-- https://agilepoker.ru/
-
-Made for fun, without limitations (consider free-tier of supabase).
-
-Feel free to make PR here or contact me.
-
-## Stack
-
-- `Vue 3` + `Vite 5` + `TypeScript 5`
-- `Supabase` free-tier
-- `PrimeVue` for ui
-- `Github pages`
-- some [skill icons](https://icones.js.org/collection/skill-icons)
-
-## Local development
-
-Provide supabase connection with `.env` file
-
-```
-VITE_SUPABASE_URL=https:/EstimPockerTryitEstimPockerTryitEstimPockerTryitEstimPockerTryitEstimPockerTryit/* .supabase.co
-VITE_SUPABASE_KEY=*
-```
-
-Install deps and run
+Make sure to install the dependencies:
 
 ```bash
+# npm
 npm install
-npm run dev
+
+# pnpm
+pnpm install
+
+# yarn
+yarn install
+
+# bun
+bun install
 ```
 
-## Features wish list
+## Development Server
 
-- [ ] Add `lint`, `format` and `type-check` prehook
-- [ ] Custom vote system generator
-*/
+Start the development server on `http://localhost:3000`:
+
+```bash
+# npm
+npm run dev
+
+# pnpm
+pnpm run dev
+
+# yarn
+yarn dev
+
+# bun
+bun run dev
+```
+
+## Production
+
+Build the application for production:
+
+```bash
+# npm
+npm run build
+
+# pnpm
+pnpm run build
+
+# yarn
+yarn build
+
+# bun
+bun run build
+```
+
+Locally preview production build:
+
+```bash
+# npm
+npm run preview
+
+# pnpm
+pnpm run preview
+
+# yarn
+yarn preview
+
+# bun
+bun run preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

@@ -1,66 +1,18 @@
 {
-  "name": "estim-poker",
+  "name": "nuxt-app",
+  "private": true,
   "type": "module",
-  "author": {
-    "name": "qcp"
-  },
-  "repository": {
-    "url": "https://github.com/qcp/estim-poker"
-  },
   "scripts": {
-    "dev": "vite --host",
-    "preview": "vite preview",
-    "build": "vite build",
-    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "stylelint": "stylelint src/**/*.{vue,css}",
-    "stylelint:fix": "stylelint src/**/*.{vue,css} --fix"
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@primevue/themes": "^4.0.0",
-    "@supabase/supabase-js": "^2.44.4",
-    "@vueuse/core": "^10.11.0",
-    "@vueuse/integrations": "^10.11.0",
-    "luxon": "^3.4.4",
-    "primeicons": "^7.0.0",
-    "primevue": "^4.0.0",
-    "qrcode": "^1.5.3",
-    "valibot": "^0.36.0",
-    "vue": "^3.4.33",
-    "vue-router": "^4.4.0"
+    "nuxt": "^3.13.0",
+    "vue": "latest",
+    "vue-router": "latest"
   },
-  "devDependencies": {
-    "@antfu/eslint-config": "^2.23.0",
-    "@primevue/auto-import-resolver": "^4.0.0",
-    "@stylistic/stylelint-config": "^1.0.1",
-    "@tsconfig/node18": "^18.2.4",
-    "@types/luxon": "^3.4.2",
-    "@types/node": "^20.14.11",
-    "@vitejs/plugin-vue": "^5.0.5",
-    "@vue/tsconfig": "^0.5.1",
-    "eslint": "^9.7.0",
-    "npm-run-all2": "^6.2.2",
-    "postcss-html": "^1.7.0",
-    "stylelint": "^16.7.0",
-    "stylelint-config-recommended-vue": "^1.5.0",
-    "stylelint-config-standard": "^36.0.1",
-    "typescript": "~5.5.3",
-    "unplugin-auto-import": "^0.18.0",
-    "unplugin-vue-components": "^0.27.3",
-    "vite": "^5.3.4",
-    "vue-component-type-helpers": "^2.0.26",
-    "vue-tsc": "^2.0.26"
-  },
-  "overrides": {
-    "@typescript-eslint/eslint-plugin": "rc-v8"
-  },
-  "cpu": [
-    "arm64",
-    "x64"
-  ],
-  "os": [
-    "linux",
-    "win32"
-  ]
+  "packageManager": "pnpm@9.12.0+sha512.4abf725084d7bcbafbd728bfc7bee61f2f791f977fd87542b3579dcb23504d170d46337945e4c66485cd12d588a0c0e570ed9c477e7ccdd8507cf05f3f92eaca"
 }

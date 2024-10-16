@@ -11,7 +11,7 @@
           </g>
         </svg>
       </span>
-      <span>Estim Pocker</span>
+      <span>Estim Poker</span>
     </h1>
     <span class="header-description">Simple tool for estimate tasks in your team</span>
   </div>

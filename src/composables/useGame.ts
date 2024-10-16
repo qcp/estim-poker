@@ -1,71 +1,39 @@
-import { object, optional, parse, picklist, string } from 'valibot'
-import type { PostgrestError } from '@supabase/supabase-js'
-import type { Ref } from 'vue'
-import supabase from '@/plugins/supabase'
+import type { IVoteSystems } from '@/constants/voteSystem'
+import { array, boolean, flatten, object, optional, parse, picklist, safeParse, string } from 'valibot'
 
-function throwIfNok(res: string, event: string) {
-  if (res !== 'ok') {
-    throw new ApiError(`Failed broadcast ${event}: ${res}`)
+function getUrl(type: 'http' | 'ws') {
+  switch (type) {
+    // case 'http': return 'https://estim-poker.deno.dev'
+    // case 'ws': return 'wss://estim-poker.deno.dev'
+    case 'http': return 'http://localhost:8000'
+    case 'ws': return 'ws://localhost:8000'
   }
 }
 
-function throwIfError(error: PostgrestError | null) {
-  if (error) {
-    throw new ApiError(error.message)
-  }
+type IUser = {
+  id: string
+  name: string
+  vote?: string
 }
-
-function gameModel(raw: any) {
-  try {
-    return parse(object({
-      id: string(),
-      name: string(),
-      vote_system: picklist(VoteSystems),
-      last_used_at: string(),
-    }), raw)
-  }
-  catch {
-    throw new ApiError(`Couldn't parse game info`)
-  }
+type IGame = {
+  id: string
+  name: string
+  showResults: boolean
+  voteSystem: IVoteSystems
+  users: Array<IUser>
+  userId: string
 }
-type IGame = ReturnType<typeof gameModel>
-
-function userModel(raw: any) {
-  try {
-    return parse(object({
-      name: string(),
-      vote: optional(string()),
-    }), raw)
-  }
-  catch {
-    throw new ApiError(`Couldn't parse user info`)
-  }
-}
-type IUser = ReturnType<typeof userModel>
-
-const PgGameTable = 'games'
-const Messages = {
-  ShowResult: 'show_result',
-  Reset: 'reset_result',
-} as const
 
 export async function createGame(name: string, voteSystem: string) {
-  const { data, error } = await supabase
-    .from(PgGameTable)
-    .insert({ name, vote_system: voteSystem })
-    .select()
-
-  throwIfError(error)
-  return gameModel(data?.at(0))
-}
-
-export function useUser() {
-  const user = useLocalStorage<IUser>('my-user', {
-    name: getRandomUserName(),
-    vote: undefined,
+  const response = await fetch(getUrl('http'), {
+    method: 'POST',
+    body: JSON.stringify({ name, voteSystem }),
   })
-
-  return user
+  const rawBodyJson = await response.json()
+  return parse(
+    object({ id: string() }), // Need only id
+    rawBodyJson,
+  )
 }
 
 export function useGamesHistory() {
@@ -92,118 +60,109 @@ export function useGamesHistory() {
   }
 }
 
-export function useGame(id: string, user: Ref<IUser>) {
-  const { add: addHistory } = useGamesHistory()
-  /** Game info, export with `name` and `vote_system` property */
+export function useGame(roomId: string) {
+  const { add: addHistory, remove: removeHistory } = useGamesHistory()
   const game = shallowRef<IGame>()
-  /** Game state, exports as readonly ref */
-  const state = shallowRef<Array<IUser>>([])
+  const user = useLocalStorage<Pick<IUser, 'name' | 'vote'>>('my-user', {
+    name: getRandomUserName(),
+    vote: undefined,
+  })
 
-  /** Show result flag */
-  const showResult = ref(false)
-
-  /** Visibility to check user activity */
-  const visibility = useDocumentVisibility()
-
-  const room = supabase.channel(`game-${id}`)
-
-  // #region helper functions
-
-  function onGameUpdate(raw: any) {
-    game.value = gameModel(raw)
-    addHistory(game.value)
-
-    // Refresh last used day if need
-    const today = DateTime.fromISO(DateTime.now().toISODate())
-    const lasGameDate = DateTime.fromISO(game.value.last_used_at)
-    if (lasGameDate.isValid && today.isValid
-      && lasGameDate.toMillis() < today.toMillis()) {
-      updateGame({ last_used_at: today.toISODate() })
-    }
-  }
-  function onStateSync(raw: any) {
-    state.value = Object.values(raw).flat().map(userModel)
-  }
-  function onShowResult(raw: any) {
-    showResult.value = Boolean(raw)
-  }
-  function onReset() {
-    user.value.vote = undefined
-  }
-
-  async function send(event: typeof Messages.ShowResult, payload: { value: boolean }): Promise<void>
-  async function send(event: typeof Messages.Reset): Promise<void>
-  async function send(event: string, payload?: unknown): Promise<void> {
-    const res = await room.send({ type: 'broadcast', event, payload })
-    throwIfNok(res, event)
-  }
-
-  async function track(data: IUser) {
-    const res = await room.track(data)
-    throwIfNok(res, 'presence-sync')
-  }
-
-  async function loadGame() {
-    const { data, error } = await supabase.from(PgGameTable).select().eq('id', id)
-    throwIfError(error)
-    onGameUpdate(data?.at(0))
-  }
-
-  async function updateGame(game: Partial<Omit<IGame, 'id'>>) {
-    const { error } = await supabase.from(PgGameTable).update(game).eq('id', id)
-    throwIfError(error)
-    /**
-     * Мы отправили обновлённую информацию, но НЕ присвоили значения переменной.
-     * Хендлер @see onGameUpdate будет вызван подпиской на изменения PG.
-     * Таким образом мы избегаем ситуации когда у разных пользователей может отображаться разная информация.
-     */
-  }
-
-  // #endregion
-
-  room
-    .on(
-      'postgres_changes',
-      { event: '*', schema: 'public', table: PgGameTable, filter: `id=eq.${id}` },
-      a => onGameUpdate(a.new),
+  function onUpdated(rawData: unknown) {
+    const parsedData = safeParse(
+      object({
+        id: string(),
+        name: string(),
+        showResults: boolean(),
+        voteSystem: picklist(VoteSystems),
+        users: array(object({ id: string(), name: string(), vote: optional(string()) })),
+        userId: string(),
+      }),
+      rawData,
     )
-    .on('presence', { event: 'sync' }, () => onStateSync(room.presenceState()))
-    .on('broadcast', { event: Messages.ShowResult }, ({ payload }) => onShowResult(payload.value))
-    .on('broadcast', { event: Messages.Reset }, () => onReset())
-    .subscribe()
-  onUnmounted(() => room.unsubscribe())
 
-  /** Load game info */
-  loadGame()
-  /** Track current user `name` and `vote` */
-  watch(user, data => track(data), { deep: true, immediate: true })
-  /** Track show result flag @see showResult */
-  watchEffect(() => send(Messages.ShowResult, { value: showResult.value }))
-  /** Track visibility and updade track state */
-  watch(visibility, vis => vis === 'visible' && track(user.value))
+    if (!parsedData.success) {
+      console.warn('Broken ws payload', flatten(parsedData.issues))
+      return
+    }
 
-  const gameName = computed({
-    get: () => game.value?.name,
-    set: val => updateGame({ name: val }),
+    const parsedGame = parsedData.output
+    game.value = parsedGame
+
+    const thisUser = parsedGame.users.find(a => a.id === parsedGame.userId)
+    if (!thisUser) {
+      console.warn(`Couldn't find user ${parsedGame.userId} in user list`)
+    }
+    else {
+      user.value = { name: thisUser.name, vote: thisUser.vote }
+    }
+
+    addHistory(parsedGame)
+  }
+
+  const ws = useWebSocket(`${getUrl('ws')}/${roomId}`, {
+    autoReconnect: {
+      retries: 3,
+      delay: 5 * 1000,
+      onFailed: () => removeHistory(roomId),
+    },
+    heartbeat: {
+      interval: 15 * 1000,
+    },
+    onConnected() {
+      changeName(user.value.name)
+    },
+    onDisconnected(ws, event) {
+      console.warn('onDisconnected', event)
+    },
+    onError(ws, event) {
+      console.error('onError', event)
+    },
+    onMessage(ws, event) {
+      if (event.data === 'pong') {
+        return
+      }
+      try {
+        const jsonData = JSON.parse(event.data)
+        onUpdated(jsonData)
+      }
+      catch (ex) {
+        console.error(`Couldn't parsed incoming message`, event.data, ex)
+      }
+    },
   })
 
-  const voteSystemName = computed({
-    get: () => game.value?.vote_system,
-    set: val => updateGame({ vote_system: val }),
-  })
+  async function updateGame(params: Pick<IGame, 'name' | 'voteSystem'>) {
+    await fetch(getUrl('http'), {
+      method: 'POST',
+      body: JSON.stringify({ id: roomId, ...params }),
+    })
+  }
 
-  /** Reset all votes */
-  async function reset() {
-    showResult.value = false
-    await send(Messages.Reset)
-    onReset()
+  async function resetResults() {
+    ws.send(JSON.stringify({ type: 'reset-results' }))
+  }
+
+  async function toggleResults() {
+    ws.send(JSON.stringify({ type: 'toggle-results' }))
+  }
+
+  async function changeName(newName: string) {
+    ws.send(JSON.stringify({ type: 'change-name', name: newName }))
+  }
+
+  async function changeVote(newVote?: string) {
+    ws.send(JSON.stringify({ type: 'change-vote', vote: newVote }))
   }
 
   return {
-    gameName,
-    showResult,
-    voteSystemName,
-    state: computed(() => state.value),
-    reset,
+    status: computed(() => ws.status.value),
+    game: computed(() => game.value),
+    updateGame,
+    user: computed(() => user.value),
+    changeName,
+    changeVote,
+    resetResults,
+    toggleResults,
   }
 }

@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import type { IVoteSystems } from '@/constants/voteSystem'
 
+type IGame = { name: string, voteSystem: IVoteSystems }
+
+const props = defineProps<IGame>()
+const emit = defineEmits<{ save: [game: IGame] }>()
+
 const voteSystemOptions = computed(() =>
   VoteSystems.map(name => ({
     name,
     description: VoteSystemConfig[name].description,
   })),
 )
-
-const gameName = defineModel<string>('gameName')
-const voteSystemName = defineModel<IVoteSystems>('voteSystemName')
 
 const gameNameDraft = ref<string>(getRandomGameName())
 const voteSystemNameDraft = ref<IVoteSystems>('fibonachi')
@@ -35,28 +37,26 @@ const constraint = computed(() => {
 })
 
 watch(
-  gameName,
-  () => {
-    if (gameName.value) {
-      gameNameDraft.value = gameName.value
+  () => props.name,
+  (name) => {
+    if (name) {
+      gameNameDraft.value = name
     }
   },
   { immediate: true },
 )
 watch(
-  voteSystemName,
-  () => {
-    if (voteSystemName.value) {
-      voteSystemNameDraft.value = voteSystemName.value
+  () => props.voteSystem,
+  (voteSystem) => {
+    if (voteSystem) {
+      voteSystemNameDraft.value = voteSystem
     }
   },
   { immediate: true },
 )
 
 function save() {
-  gameName.value = gameNameDraft.value.trim()
-  voteSystemName.value = voteSystemNameDraft.value
-
+  emit('save', { name: gameNameDraft.value, voteSystem: voteSystemNameDraft.value })
   visible.value = false
 }
 

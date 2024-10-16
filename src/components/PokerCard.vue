@@ -4,6 +4,7 @@ const props = defineProps<{
   hided?: boolean
   selected?: boolean
   withHover?: boolean
+  disabled?: boolean
 }>()
 </script>
 
@@ -13,6 +14,7 @@ const props = defineProps<{
     :class="{
       'with-hover': props.withHover,
       'selected': props.selected,
+      'disabled': props.disabled,
     }"
   >
     <i v-if="!props.vote" style="font-size: inherit;" class="pi pi-question" />
@@ -59,5 +61,10 @@ const props = defineProps<{
   color: var(--p-primary-color);
   position: absolute;
   bottom: calc(0.5rem * -2);
+}
+
+.card.disabled {
+  opacity: var(--p-disabled-opacity);
+  cursor: not-allowed;
 }
 </style>

@@ -2,6 +2,7 @@
 import type { IVoteSystems } from '@/constants/voteSystem'
 
 const props = defineProps<{
+  disabled?: boolean
   voteSystemName: IVoteSystems
 }>()
 
@@ -19,7 +20,8 @@ const vote = defineModel<string>('vote')
       :vote="name"
       :selected="vote === name"
       with-hover
-      @click="vote = vote === name ? undefined : name"
+      :disabled="props.disabled"
+      @click="!props.disabled && (vote = vote === name ? undefined : name)"
     />
   </div>
 </template>

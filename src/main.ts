@@ -1,16 +1,16 @@
-import './assets/base.css'
-import 'primeicons/primeicons.css'
-
-import { createApp } from 'vue'
-import PrimeVue from 'primevue/config'
-import Aura from '@primevue/themes/aura'
 import { definePreset } from '@primevue/themes'
+import Aura from '@primevue/themes/aura'
 
+import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice'
 import Tooltip from 'primevue/tooltip'
-import AuraPreset from './assets/preset.json'
+import { createApp } from 'vue'
+
 import App from './App.vue'
+import AuraPreset from './assets/preset.json'
 import { router } from './plugins/router'
+import './assets/base.css'
+import 'primeicons/primeicons.css'
 
 const app = createApp(App)
 

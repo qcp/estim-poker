@@ -1,0 +1,56 @@
+{
+  "name": "Shark Emoji",
+  "description": "Shark Emoji team sequence",
+  "options": [
+    {
+      "name": "☕",
+      "value": 0,
+      "tooltip": "less 30m"
+    },
+    {
+      "name": "🤏",
+      "value": 0.5,
+      "tooltip": "less 2h"
+    },
+    {
+      "name": "👌",
+      "value": 1,
+      "tooltip": "half day"
+    },
+    {
+      "name": "👍",
+      "value": 2,
+      "tooltip": "abt day"
+    },
+    {
+      "name": "🤞",
+      "value": 3,
+      "tooltip": "1-2 days"
+    },
+    {
+      "name": "🙏",
+      "value": 5,
+      "tooltip": "2-3 days"
+    },
+    {
+      "name": "🥲",
+      "value": 8,
+      "tooltip": "3-5 days"
+    },
+    {
+      "name": "🫠",
+      "value": 13,
+      "tooltip": "2 weeks"
+    },
+    {
+      "name": "🫣",
+      "value": 21,
+      "tooltip": "3 weeks"
+    },
+    {
+      "name": "🤷‍♂️",
+      "value": -1,
+      "tooltip": "unknown"
+    }
+  ]
+}

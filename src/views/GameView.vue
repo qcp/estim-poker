@@ -2,7 +2,7 @@
 import type { GlobalComponents } from 'vue'
 import type { ComponentExposed } from 'vue-component-type-helpers'
 
-import { useGame, useUser } from '@/composables/useGame'
+import { useGame } from '@/composables/useGame'
 import { useTheme } from '@/composables/useTheme'
 
 const isMobile = useMediaQuery('only screen and (orientation:portrait) and (pointer:coarse)')
@@ -17,23 +17,21 @@ const userSettingsEl = ref<InstanceType<GlobalComponents['Popover']>>()
 const { params: { id: routerIds } } = useRoute()
 const gameId = Array.isArray(routerIds) ? routerIds.at(0)! : routerIds!
 
-const user = useUser()
-const { gameName, showResult, voteSystemName, state, reset } = useGame(gameId, user)
+const { status, game, user, toggleResults, resetResults, updateGame, changeName, changeVote } = useGame(gameId)
 
 const groupedView = ref(false)
+
+const reloadPage = () => window.location.reload()
 </script>
 
 <template>
-  <section v-if="!(gameName && voteSystemName)" class="loading">
-    <i class="pi pi-spin pi-spinner" style="font-size: 3em;" />
-  </section>
-  <section v-else class="main">
+  <section v-if="game" class="main">
     <p-card>
       <template #content>
         <div class="header">
           <p-button icon="pi pi-home" text @click="$router.push({ name: 'hello' })" />
-          <b class="game-label">{{ gameName }}</b>
-          <p-button icon="pi pi-user-edit" text @click="(e: Event) => userSettingsEl?.toggle(e)" />
+          <b class="game-label">{{ game.name }}</b>
+          <p-button icon="pi pi-user-edit" text @click="(e) => userSettingsEl?.toggle(e)" />
           <p-button icon="pi pi-cog" text @click="settingsDialogEl?.toggle()" />
           <p-button icon="pi pi-share-alt" text @click="shareDialogEl?.toggle()" />
           <p-button :icon="themeIcon" text @click="toggleTheme" />
@@ -50,8 +48,8 @@ const groupedView = ref(false)
       <template #content>
         <div class="result">
           <transition name="slide" mode="out-in">
-            <game-result-grouped v-if="groupedView" :result="state" :vote-system-name="voteSystemName" :show="showResult" />
-            <game-result v-else :result="state" :show="showResult" />
+            <game-result-grouped v-if="groupedView" :result="game.users" :vote-system-name="game.voteSystem" :show="game.showResults" />
+            <game-result v-else :result="game.users" :show="game.showResults" />
           </transition>
         </div>
       </template>
@@ -65,18 +63,18 @@ const groupedView = ref(false)
             @click="() => groupedView = !groupedView"
           />
           <p-button
-            :icon="showResult ? 'pi pi-eye-slash' : 'pi pi-eye'"
-            :label="showResult ? 'Hide result' : 'Show result'"
+            :icon="game.showResults ? 'pi pi-eye-slash' : 'pi pi-eye'"
+            :label="game.showResults ? 'Hide result' : 'Show result'"
             text
             style="width: 20ch;"
-            @click="() => (showResult = !showResult)"
+            @click="toggleResults"
           />
           <p-button
             v-tooltip.top="'Reset votes'"
             icon="pi pi-refresh"
             severity="danger"
             text
-            @click="reset"
+            @click="resetResults"
           />
         </div>
       </template>
@@ -84,22 +82,53 @@ const groupedView = ref(false)
     <p-card>
       <template #content>
         <cards-selector
-          v-model:vote="user.vote"
-          :vote-system-name="voteSystemName"
-          :class="{ 'p-disabled': showResult }"
+          :vote="user.vote"
+          :vote-system-name="game.voteSystem"
+          :disabled="game.showResults"
+          @update:vote="changeVote"
         />
       </template>
     </p-card>
 
     <p-popover ref="userSettingsEl">
-      <user-settings v-model:username="user.name" />
+      <user-settings
+        :username="user.name"
+        @update:username="changeName"
+      />
     </p-popover>
     <share-dialog ref="shareDialogEl" />
     <settings-dialog
       ref="settingsDialogEl"
-      v-model:game-name="gameName"
-      v-model:vote-system-name="voteSystemName"
+      :name="game.name"
+      :vote-system="game.voteSystem"
+      @save="updateGame"
     />
+  </section>
+  <section v-else-if="status !== 'CLOSED'" class="loading">
+    <i class="pi pi-spin pi-spinner" style="font-size: 3em;" />
+  </section>
+  <section v-else-if="status === 'CLOSED'" class="main">
+    <p-card>
+      <template #content>
+        <p-message severity="error">
+          Something went wrong...
+        </p-message>
+      </template>
+      <template #footer>
+        <div class="actions">
+          <p-button
+            label="Reload page"
+            severity="secondary"
+            @click="reloadPage"
+          />
+          <p-button
+            label="Back to menu"
+            severity="secondary"
+            @click="$router.push({ name: 'hello' })"
+          />
+        </div>
+      </template>
+    </p-card>
   </section>
 </template>
 

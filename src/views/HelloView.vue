@@ -11,8 +11,8 @@ function goToGame(id: string) {
 }
 
 async function createNewGame() {
-  const newGame = await createGame(getRandomGameName(), 'shark')
-  goToGame(newGame.id)
+  const { id } = await createGame(getRandomGameName(), 'shark')
+  goToGame(id)
 }
 
 function openGithub() {

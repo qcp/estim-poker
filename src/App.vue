@@ -3,15 +3,7 @@ import PToast from 'primevue/toast'
 import { RouterView } from 'vue-router'
 import { useErrorHandler } from './composables/useErrorHandler'
 
-const router = useRouter()
-
-const { handleError } = useErrorHandler({
-  onApiError: (error) => {
-    if (error.message === `Couldn't parse game info`) {
-      router.push({ name: 'hello' })
-    }
-  },
-})
+const { handleError } = useErrorHandler()
 
 // Register listener only once
 onMounted(() => {

@@ -3,10 +3,10 @@ import { array, boolean, flatten, object, optional, parse, picklist, safeParse, 
 
 function getUrl(type: 'http' | 'ws') {
   switch (type) {
-    // case 'http': return 'https://estim-poker.deno.dev'
-    // case 'ws': return 'wss://estim-poker.deno.dev'
-    case 'http': return 'http://localhost:8000'
-    case 'ws': return 'ws://localhost:8000'
+    case 'http': return 'https://estim-poker.deno.dev'
+    case 'ws': return 'wss://estim-poker.deno.dev'
+    // case 'http': return 'http://localhost:8000'
+    // case 'ws': return 'ws://localhost:8000'
   }
 }
 
